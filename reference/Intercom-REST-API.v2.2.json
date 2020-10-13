@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Intercom REST API",
-    "version": "1.0",
+    "version": "2.2",
     "contact": {
       "url": "https://developers.intercom.com/building-apps",
       "name": "Intercom Developer Hub"
@@ -161,6 +161,18 @@
             "in": "header",
             "required": true,
             "name": "Accept"
+          },
+          {
+            "schema": {
+              "type": "number",
+              "default": 10,
+              "maximum": 150,
+              "minimum": 1,
+              "example": 100
+            },
+            "in": "query",
+            "name": "per_page",
+            "description": "The number of items returned in a single response.\nDefault is 50.\nMax is 150."
           }
         ],
         "security": [
