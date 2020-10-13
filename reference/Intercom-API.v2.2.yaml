@@ -1047,6 +1047,8 @@ paths:
                   into: 5ba682d23d7cf92bef87bfd4
       security:
         - Bearer: []
+      tags:
+        - Contacts
 components:
   schemas:
     Next:
