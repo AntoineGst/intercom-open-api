@@ -147,6 +147,30 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "type": "error.list",
+                      "request_id": "0033stouf61cc58lp9ig",
+                      "errors": [
+                        {
+                          "code": "client_error",
+                          "message": "Invalid starting_after param. Please try again using a starting_after value from a paginated response"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "operationId": "get-contacts",
@@ -323,49 +347,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "minLength": 1,
-                      "description": "The type of object - error.list."
-                    },
-                    "request_id": {
-                      "type": "string",
-                      "description": "The Id of the request."
-                    },
-                    "errors": {
-                      "type": "array",
-                      "uniqueItems": true,
-                      "minItems": 1,
-                      "description": "The list of errors.",
-                      "items": {
-                        "type": "object",
-                        "description": "Error object.",
-                        "properties": {
-                          "code": {
-                            "type": "string",
-                            "minLength": 1,
-                            "description": "Code of the error."
-                          },
-                          "message": {
-                            "type": "string",
-                            "minLength": 1,
-                            "description": "Error message."
-                          }
-                        },
-                        "required": [
-                          "code",
-                          "message"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "errors"
-                  ]
+                  "$ref": "#/components/schemas/Errors"
                 },
                 "examples": {
                   "Invalid Parameters": {
@@ -1562,6 +1544,75 @@
                     "value": "Lead"
                   }
                 ]
+              }
+            ]
+          }
+        }
+      },
+      "Error": {
+        "description": "Error that ocurred when calling the Intercom API.",
+        "type": "object",
+        "x-examples": {
+          "Example": {
+            "code": "conflict",
+            "message": "A contact matching those details already exists with id=5da6f18e3d7cf967e4582d05"
+          }
+        },
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Error code"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Error message"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "Error"
+      },
+      "Errors": {
+        "description": "A list of errors that ocurred when calling the Intercom API.",
+        "type": "object",
+        "title": "Errors",
+        "properties": {
+          "type": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The type of object - error.list."
+          },
+          "request_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Id of the request."
+          },
+          "errors": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "request_id",
+          "errors"
+        ],
+        "x-examples": {
+          "Example": {
+            "type": "error.list",
+            "request_id": "80ec9d92-99ff-4da9-9a0e-c0ab7c42f7e7",
+            "errors": [
+              {
+                "code": "conflict",
+                "message": "A contact matching those details already exists with id=5da6f18e3d7cf967e4582d05"
               }
             ]
           }
