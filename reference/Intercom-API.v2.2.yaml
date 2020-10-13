@@ -1770,6 +1770,199 @@ components:
       required:
         - from
         - into
+    Company:
+      description: |-
+        Companies allow you to represent organizations using your product. Each company will have its own description and be associated with contacts. You can fetch, create, update and list companies.
+
+        Companies will not appear within Intercom until users have been added or associated with a company.
+      type: object
+      title: Company
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'company'.
+          example: company
+        id:
+          type: string
+          minLength: 1
+          description: The Intercom defined id representing the company.
+          example: 531ee472cce572a6ec000006
+        name:
+          type: string
+          minLength: 1
+          description: The name of the company.
+          example: Blue Sun
+        plan:
+          type: string
+          minLength: 1
+          description: The name of the plan you have associated with the company.
+          example: plan1
+          nullable: true
+        company_id:
+          type: string
+          minLength: 1
+          description: The company id you have defined for the company.
+          example: '6'
+          nullable: true
+        remote_created_at:
+          type: number
+          description: The time the company was created by you.
+          minimum: 1
+          example: 1394531169
+          nullable: true
+        created_at:
+          type: number
+          description: The time the company was added to Intercom.
+          minimum: 1
+          example: 1394533506
+          nullable: true
+        updated_at:
+          type: number
+          description: The last time the company was updated.
+          minimum: 1
+          example: 1396874658
+          nullable: true
+        size:
+          type: number
+          description: The number of employees in the company.
+          minimum: 0
+          example: 85
+          nullable: true
+        website:
+          type: string
+          minLength: 1
+          description: The URL for the company website.
+          example: 'http://www.example.com'
+          nullable: true
+        industry:
+          type: string
+          minLength: 1
+          description: The industry that the company operates in.
+          example: Manufacturing
+          nullable: true
+        monthly_spend:
+          type: number
+          description: How much revenue the company generates for your business.
+          example: 49
+          minimum: 0
+          nullable: true
+        session_count:
+          type: number
+          description: How many sessions the company has recorded.
+          example: 26
+          minimum: 0
+          nullable: true
+        user_count:
+          type: number
+          description: The number of users in the company.
+          example: 10
+          minimum: 0
+          nullable: true
+        custom_attributes:
+          type: object
+          description: The custom attributes you have set on the company.
+      required:
+        - type
+        - id
+        - name
+    Tag:
+      description: A tag allows you to label your contacts and companies and list them using that tag.
+      type: object
+      title: Tag
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: The id of the tag.
+        name:
+          type: string
+          minLength: 1
+          description: The name of the tag.
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'tag'.
+      required:
+        - id
+        - name
+        - type
+    Note:
+      description: Notes allow you to annotate and comment on your contacts.
+      type: object
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'note'.
+        id:
+          type: string
+          minLength: 1
+          description: The id representing the note.
+        created_at:
+          type: number
+          description: The time the note was created.
+        body:
+          type: string
+          minLength: 1
+          description: The body text of the note.
+        author:
+          $ref: '#/components/schemas/NoteAuthor'
+        user:
+          $ref: '#/components/schemas/NoteUser'
+      required:
+        - type
+        - id
+        - created_at
+        - body
+        - user
+      title: Note
+    NoteAuthor:
+      description: Represents the Admin that created the note.
+      type: object
+      title: Note Author
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'admin'.
+          example: admin
+        id:
+          type: string
+          minLength: 1
+          description: The id of the admin user that created the note.
+          example: '21'
+        name:
+          type: string
+          minLength: 1
+          description: Name of the admin user.
+          example: Jayne Cobb
+        email:
+          type: string
+          minLength: 1
+          description: Email of the admin user.
+          example: jayne@serenity.io
+      required:
+        - type
+        - id
+        - name
+        - email
+    NoteUser:
+      description: The user the note was created about.
+      type: object
+      title: Note User
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'user'.
+        id:
+          type: string
+          minLength: 1
+          description: Id of the user the note was created about.
+      required:
+        - type
+        - id
   securitySchemes:
     Bearer:
       type: http
