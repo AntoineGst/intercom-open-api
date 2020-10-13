@@ -17,7 +17,7 @@
   "paths": {
     "/contacts": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "List all contacts",
         "tags": [
           "contacts"
         ],
