@@ -7,4 +7,4 @@ The goal is that, with this specification, it is easier to create SDKs using cod
 
 it is currently based on v2.2 of Intercom's API.
 
-You can see the endpoints added so far [here](https://github.com/RicoSuter/NSwag).
+You can see the endpoints added so far [here](https://intercom-api.docs.stoplight.io/intercom-api-reference).
