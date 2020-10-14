@@ -1049,6 +1049,245 @@ paths:
         - Bearer: []
       tags:
         - Contacts
+  '/contacts/{id}/companies':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the contact which is given by Intercom.
+    get:
+      summary: List attached companies
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyList'
+              examples:
+                Company List:
+                  value:
+                    type: company.list
+                    pages:
+                      type: pages
+                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      page: 1
+                      per_page: 50
+                      total_pages: 26
+                    companies:
+                      - type: company
+                        id: 531ee472cce572a6ec000006
+                        name: Blue Sun
+                        plan:
+                          type: plan
+                          id: '33574'
+                          name: premium.plan
+                        company_id: '6'
+                        remote_created_at: 1394531169
+                        created_at: 1394533506
+                        updated_at: 1396874658
+                        size: 85
+                        website: 'http://www.example.com'
+                        industry: Manufacturing
+                        monthly_spend: 49
+                        session_count: 26
+                        user_count: 10
+                        tags:
+                          type: tag.list
+                          tags: []
+                        segments:
+                          type: segment.list
+                          segments: []
+                        custom_attributes: {}
+                    total_count: 1
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+      operationId: get-contacts-id-companies
+      description: Fetch a list of companies that are associated to a contact.
+      security:
+        - Bearer: []
+  '/contacts/{id}/tags':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the contact which is given by Intercom.
+    get:
+      summary: List attached tags
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+              examples:
+                Tag List:
+                  value:
+                    type: list
+                    data:
+                      - id: '17513'
+                        name: independent
+                        type: tag
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+      operationId: get-contacts-id-tags
+      description: Fetch a list of tags that are associated to a contact.
+      security:
+        - Bearer: []
+  '/contacts/{id}/segments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the contact which is given by Intercom.
+    get:
+      summary: List attached segments
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentList'
+              examples:
+                Segment List:
+                  value:
+                    type: list
+                    data:
+                      - type: segment
+                        id: 53203e244cba153d39000062
+                        name: New
+                        created_at: 1394621988
+                        updated_at: 1394622004
+                        person_type: user
+                        count: 148
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+      operationId: get-contacts-id-segments
+      description: Fetch a list of segments that are associated to a contact.
+      security:
+        - Bearer: []
+  '/contacts/{id}/notes':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the contact which is given by Intercom.
+    get:
+      summary: List all notes for contact
+      tags:
+        - Notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteList'
+              examples:
+                Notes List:
+                  value:
+                    type: list
+                    data:
+                      - type: note
+                        id: '16'
+                        created_at: 1389913941
+                        body: <p>Text for my note</p>
+                        author:
+                          type: admin
+                          id: '21'
+                          name: Jayne Cobb
+                          email: jayne@serenity.io
+                        user:
+                          type: user
+                          id: 5310d8e8598c9a0b24000005
+                    pages:
+                      type: pages
+                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      page: 1
+                      per_page: 50
+                      total_pages: 26
+                    total_count: 3
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+      operationId: get-contacts-id-notes
+      description: Fetch a list of notes that are associated to a contact.
+      security:
+        - Bearer: []
 components:
   schemas:
     Next:
@@ -1057,7 +1296,7 @@ components:
       title: Next
       properties:
         page:
-          type: number
+          type: integer
           description: Number of next page in the result set.
           example: 4
         starting_after:
@@ -1068,10 +1307,10 @@ components:
           example: 1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n
       required:
         - page
-    Pages:
-      description: Provides information needed to paginate through records in a result set.
+    PagesCursor:
+      description: Provides information needed to paginate through records in a result set using a cursor.
       type: object
-      title: Pages
+      title: Pages (Cursor)
       properties:
         type:
           type: string
@@ -1081,15 +1320,15 @@ components:
         next:
           $ref: '#/components/schemas/Next'
         page:
-          type: number
-          description: Current page.
+          type: integer
+          description: The current page.
           example: 3
         per_page:
-          type: number
+          type: integer
           description: How many records per page are included in the response.
           example: 5
         total_pages:
-          type: number
+          type: integer
           description: Total pages in the result set.
           example: 10
       required:
@@ -1217,7 +1456,7 @@ components:
           description: The URL where the full list can be accessed (ie. /contacts/1234/companies).
           example: /contacts/5ba682d23d7cf92bef87bfd4/companies
         total_count:
-          type: number
+          type: integer
           description: The total amount of records.
           example: 3
         has_more:
@@ -1463,11 +1702,11 @@ components:
           items:
             $ref: '#/components/schemas/Contact'
         total_count:
-          type: number
+          type: integer
           description: The total number of contacts.
           example: 436
         pages:
-          $ref: '#/components/schemas/Pages'
+          $ref: '#/components/schemas/PagesCursor'
       required:
         - type
         - data
@@ -1681,19 +1920,16 @@ components:
           format: uri
           example: 'https://example.org/128Wash.jpg'
         last_seen_at:
-          type: number
+          type: integer
           description: The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). Unix Timestamp.
-          minimum: 1
           example: 1571069751
         signed_up_at:
-          type: number
+          type: integer
           description: The time specified for when a contact signed up. Unix Timestamp.
-          minimum: 1
           example: 1571069751
         owner_id:
-          type: number
+          type: integer
           description: The id of an admin that has been assigned account ownership of the contact.
-          minimum: 1
           example: 127
         unsubscribed_from_emails:
           type: boolean
@@ -1794,11 +2030,7 @@ components:
           description: The name of the company.
           example: Blue Sun
         plan:
-          type: string
-          minLength: 1
-          description: The name of the plan you have associated with the company.
-          example: plan1
-          nullable: true
+          $ref: '#/components/schemas/Plan'
         company_id:
           type: string
           minLength: 1
@@ -1806,27 +2038,23 @@ components:
           example: '6'
           nullable: true
         remote_created_at:
-          type: number
+          type: integer
           description: The time the company was created by you.
-          minimum: 1
           example: 1394531169
           nullable: true
         created_at:
-          type: number
+          type: integer
           description: The time the company was added to Intercom.
-          minimum: 1
           example: 1394533506
           nullable: true
         updated_at:
-          type: number
+          type: integer
           description: The last time the company was updated.
-          minimum: 1
           example: 1396874658
           nullable: true
         size:
-          type: number
+          type: integer
           description: The number of employees in the company.
-          minimum: 0
           example: 85
           nullable: true
         website:
@@ -1848,20 +2076,22 @@ components:
           minimum: 0
           nullable: true
         session_count:
-          type: number
+          type: integer
           description: How many sessions the company has recorded.
           example: 26
-          minimum: 0
           nullable: true
         user_count:
-          type: number
+          type: integer
           description: The number of users in the company.
           example: 10
-          minimum: 0
           nullable: true
         custom_attributes:
           type: object
           description: The custom attributes you have set on the company.
+        tags:
+          $ref: '#/components/schemas/CompanyTagList'
+        segments:
+          $ref: '#/components/schemas/CompanySegmentList'
       required:
         - type
         - id
@@ -1875,14 +2105,17 @@ components:
           type: string
           minLength: 1
           description: The id of the tag.
+          example: '17513'
         name:
           type: string
           minLength: 1
           description: The name of the tag.
+          example: independent
         type:
           type: string
           minLength: 1
           description: Value is 'tag'.
+          example: tag
       required:
         - id
         - name
@@ -1890,22 +2123,27 @@ components:
     Note:
       description: Notes allow you to annotate and comment on your contacts.
       type: object
+      title: Note
       properties:
         type:
           type: string
           minLength: 1
           description: Value is 'note'.
+          example: note
         id:
           type: string
           minLength: 1
           description: The id representing the note.
+          example: '16'
         created_at:
-          type: number
+          type: integer
           description: The time the note was created.
+          example: 1389913941
         body:
           type: string
           minLength: 1
           description: The body text of the note.
+          example: <p>Text for my note</p>
         author:
           $ref: '#/components/schemas/NoteAuthor'
         user:
@@ -1916,7 +2154,6 @@ components:
         - created_at
         - body
         - user
-      title: Note
     NoteAuthor:
       description: Represents the Admin that created the note.
       type: object
@@ -1956,13 +2193,241 @@ components:
           type: string
           minLength: 1
           description: Value is 'user'.
+          example: user
         id:
           type: string
           minLength: 1
           description: Id of the user the note was created about.
+          example: 5310d8e8598c9a0b24000005
       required:
         - type
         - id
+    Segment:
+      description: A segment is a group of your contacts defined by rules that you set. Contacts are automatically added to the segment every time the contact updates to match those rules. You can use Search for contacts to find contacts that match the same rules.
+      type: object
+      title: Segment
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'segment'.
+          example: segment
+        id:
+          type: string
+          minLength: 1
+          description: The unique identifier representing the segment.
+          example: 53203e244cba153d39000062
+        name:
+          type: string
+          minLength: 1
+          description: The name of the segment.
+          example: New
+        created_at:
+          type: integer
+          description: The time the segment was created.
+          example: 1394621988
+        updated_at:
+          type: integer
+          description: The time the segment was updated.
+          example: 1394622004
+        person_type:
+          type: string
+          description: 'Type of the record: user or lead.'
+          example: user
+          minLength: 1
+        count:
+          type: integer
+          description: The number of items in the user segment. It's returned when include_count=true is included in the request.
+          example: 148
+          minimum: 0
+      required:
+        - type
+        - id
+        - name
+    PagesSimple:
+      description: Provides information needed to paginate through records in a result set (in non-cursor based result sets).
+      type: object
+      title: Pages (Simple)
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - pages.
+          example: pages
+        next:
+          type: string
+          minLength: 1
+          description: An url to the next page in the result set.
+          format: uri
+          example: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+        page:
+          type: integer
+          description: The current page.
+          example: 1
+          minimum: 1
+        per_page:
+          type: integer
+          description: How many records per page are included in the response.
+          example: 50
+          minimum: 1
+        total_pages:
+          type: integer
+          description: Total pages in the result set.
+          example: 26
+          minimum: 0
+      required:
+        - type
+    CompanyList:
+      description: A list of companies.
+      type: object
+      title: Company List
+      properties:
+        type:
+          type: string
+          minLength: 1
+          example: company.list
+          description: The type of object - company.list
+        pages:
+          $ref: '#/components/schemas/PagesSimple'
+        companies:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Company'
+        total_count:
+          type: integer
+          example: 1
+          minimum: 0
+          description: The total number of companies in the result.
+      required:
+        - type
+        - companies
+    Plan:
+      description: A plan you have associated with a company.
+      type: object
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - plan.
+          example: plan
+        id:
+          type: string
+          minLength: 1
+          description: The Id of the plan
+          example: '33574'
+        name:
+          type: string
+          minLength: 1
+          description: The name of the plan.
+          example: premium.plan
+      required:
+        - type
+        - id
+        - name
+      title: Plan
+    CompanyTagList:
+      description: List of tags associated to a company.
+      type: object
+      title: Company Tag List
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - tag.list.
+          example: tag.list
+        tags:
+          type: array
+          description: List of tags associated to this company.
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+        - type
+        - tags
+    CompanySegmentList:
+      description: List of segments associated to a company.
+      type: object
+      title: Company Segment List
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - segment.list.
+        segments:
+          type: array
+          description: List of segments associated to this company.
+          items:
+            $ref: '#/components/schemas/Segment'
+      required:
+        - type
+        - segments
+    TagList:
+      description: List of tags.
+      type: object
+      title: Tag List
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - list.
+          example: list
+        data:
+          type: array
+          uniqueItems: true
+          description: List of tags.
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+        - type
+        - data
+    SegmentList:
+      description: List of segments.
+      type: object
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: The type of the object - list.
+          example: list
+        data:
+          type: array
+          uniqueItems: true
+          description: List of segments.
+          items:
+            $ref: '#/components/schemas/Segment'
+      required:
+        - type
+        - data
+      title: Segment List
+    NoteList:
+      description: A list of notes attached to a contact.
+      type: object
+      title: Note List
+      properties:
+        type:
+          type: string
+          minLength: 1
+          example: list
+          description: The type of the object - list.
+        data:
+          type: array
+          uniqueItems: true
+          description: List of notes
+          items:
+            $ref: '#/components/schemas/Note'
+        pages:
+          $ref: '#/components/schemas/PagesSimple'
+        total_count:
+          type: integer
+          example: 3
+          minimum: 0
+          description: The total number of notes associated to this contact.
+      required:
+        - type
+        - data
+        - pages
+        - total_count
   securitySchemes:
     Bearer:
       type: http
@@ -2179,3 +2644,4 @@ components:
           team_mates: 1
 tags:
   - name: Contacts
+  - name: Notes
