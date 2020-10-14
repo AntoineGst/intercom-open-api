@@ -7,4 +7,5 @@ The goal is that, with this specification, it is easier to create SDKs using cod
 
 It is currently based on v2.2 of Intercom's API.
 
-You can see the endpoints added so far [here](https://intercom-api.docs.stoplight.io/intercom-api-reference).
+You can see the endpoints added so far [here](https://intercom-api.docs.stoplight.io/intercom-api-reference) (Stoplight version)
+and [here](https://app.swaggerhub.com/apis-docs/FinanzaPro/Intercom/2.2) (Swagger UI version).
