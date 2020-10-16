@@ -1372,6 +1372,75 @@ paths:
       description: Fetch a list of notes that are associated to a contact.
       security:
         - Bearer: []
+    post:
+      summary: Create a note
+      operationId: post-contacts-id-notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+              examples:
+                Note:
+                  value:
+                    type: note
+                    id: '16'
+                    created_at: 1389913941
+                    body: <p>Text for my note</p>
+                    author:
+                      type: admin
+                      id: '21'
+                      name: Jayne Cobb
+                      email: jayne@serenity.io
+                      job_title: The job title of the admin
+                      away_mode_enabled: true
+                      away_mode_reassign: true
+                      has_inbox_seat: true
+                      team_ids:
+                        - 814865
+                      avatar: 'http://example.org/128Jayne.jpg'
+                    user:
+                      type: user
+                      id: 5310d8e8598c9a0b24000005
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+                Admin not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Resource Not Found
+      tags:
+        - Notes
+      description: Create a note on a single contact.
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+            examples:
+              Example:
+                value:
+                  body: Shiny
+                  admin_id: '12345'
+        description: ''
   /companies:
     get:
       summary: List all companies
@@ -2035,6 +2104,51 @@ paths:
                         message: Company Not Found
       operationId: get-companies-id-segments
       description: Fetch a list of all segments that belong to a company.
+      security:
+        - Bearer: []
+  '/notes/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier of a given note.
+    get:
+      summary: Retrieve a note
+      tags:
+        - Notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+              examples:
+                Example:
+                  value:
+                    type: note
+                    id: '16'
+                    created_at: 1389913941
+                    body: <p>Text for my note</p>
+                    author:
+                      type: admin
+                      id: '21'
+                      name: Jayne Cobb
+                      email: jayne@serenity.io
+                      job_title: The job title of the admin
+                      away_mode_enabled: true
+                      away_mode_reassign: true
+                      has_inbox_seat: true
+                      team_ids:
+                        - 814865
+                      avatar: 'http://example.org/128Jayne.jpg'
+                    user:
+                      type: user
+                      id: 5310d8e8598c9a0b24000005
+      operationId: get-notes-id
+      description: Fetch the details of a single note.
       security:
         - Bearer: []
 components:
@@ -2885,6 +2999,27 @@ components:
       description: Notes allow you to annotate and comment on your contacts.
       type: object
       title: Note
+      x-examples:
+        Example:
+          type: note
+          id: '16'
+          created_at: 1389913941
+          body: <p>Text for my note</p>
+          author:
+            type: admin
+            id: '21'
+            name: Jayne Cobb
+            email: jayne@serenity.io
+            job_title: The job title of the admin
+            away_mode_enabled: true
+            away_mode_reassign: true
+            has_inbox_seat: true
+            team_ids:
+              - 814865
+            avatar: 'http://example.org/128Jayne.jpg'
+          user:
+            type: user
+            id: 5310d8e8598c9a0b24000005
       properties:
         type:
           type: string
@@ -2906,7 +3041,7 @@ components:
           description: The body text of the note.
           example: <p>Text for my note</p>
         author:
-          $ref: '#/components/schemas/NoteAuthor'
+          $ref: '#/components/schemas/Admin'
         user:
           $ref: '#/components/schemas/NoteUser'
       required:
@@ -2915,10 +3050,23 @@ components:
         - created_at
         - body
         - user
-    NoteAuthor:
-      description: Represents the Admin that created the note.
+    Admin:
+      description: A teammate account that has access to a workspace.
       type: object
-      title: Note Author
+      title: Admin
+      x-examples:
+        Example:
+          type: admin
+          id: '21'
+          name: Jayne Cobb
+          email: jayne@serenity.io
+          job_title: The job title of the admin
+          away_mode_enabled: true
+          away_mode_reassign: true
+          has_inbox_seat: true
+          team_ids:
+            - 814865
+          avatar: 'http://example.org/128Jayne.jpg'
       properties:
         type:
           type: string
@@ -2940,6 +3088,32 @@ components:
           minLength: 1
           description: Email of the admin user.
           example: jayne@serenity.io
+        job_title:
+          type: string
+          minLength: 1
+          example: The job title of the admin
+        away_mode_enabled:
+          type: boolean
+          description: Identifies if this admin is currently set in away mode.
+        away_mode_reassign:
+          type: boolean
+          description: Identifies if this admin is set to automatically reassign new conversations to the apps default inbox.
+        has_inbox_seat:
+          type: boolean
+          description: Identifies if a teammate has a paid inbox seat to restrict/allow features that require them.
+        team_ids:
+          type: array
+          description: This is a list of teams id's that you are part of.
+          items:
+            type: integer
+            minimum: 1
+            example: 814865
+        avatar:
+          type: string
+          description: Image for the associated team or teammate
+          format: uri
+          example: 'http://example.org/128Jayne.jpg'
+          minLength: 1
       required:
         - type
         - id
@@ -2963,6 +3137,10 @@ components:
       required:
         - type
         - id
+      x-examples:
+        Example:
+          type: user
+          id: 5310d8e8598c9a0b24000005
     Segment:
       description: A segment is a group of your contacts defined by rules that you set. Contacts are automatically added to the segment every time the contact updates to match those rules. You can use Search for contacts to find contacts that match the same rules.
       type: object
@@ -3194,6 +3372,29 @@ components:
         - data
         - pages
         - total_count
+      x-examples:
+        Example:
+          type: list
+          data:
+            - type: note
+              id: '16'
+              created_at: 1389913941
+              body: <p>Text for my note</p>
+              author:
+                type: admin
+                id: '21'
+                name: Jayne Cobb
+                email: jayne@serenity.io
+              user:
+                type: user
+                id: 5310d8e8598c9a0b24000005
+          pages:
+            type: pages
+            next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/notes?per_page=1&page=2'
+            page: 1
+            per_page: 50
+            total_pages: 26
+          total_count: 3
     SearchPagination:
       description: Provides information needed to paginate through records in a result set using a cursor. This currently only applies to Searching for Contacts.
       type: object
@@ -3316,6 +3517,29 @@ components:
       required:
         - id
       title: Attach Company to Contact Request
+    CreateNoteRequest:
+      description: |
+        Model used to create a note
+      type: object
+      title: Create Note Request
+      properties:
+        body:
+          type: string
+          minLength: 1
+          description: The text of the note.
+          example: Shiny
+        admin_id:
+          type: string
+          minLength: 1
+          description: The unique identifier for the admin which is given by Intercom.
+          example: '12345'
+      required:
+        - body
+        - admin_id
+      x-examples:
+        Example:
+          body: Shiny
+          admin_id: '12345'
   securitySchemes:
     Bearer:
       type: http
