@@ -445,6 +445,8 @@ paths:
         You can search for multiple contacts by the value of their attributes in order to fetch exactly who you want.
 
         To search for contacts, you need to send a POST request to this endpoint. This will accept a query object in the body which will define your filters in order to search for contacts.
+
+        Look at the examples for creating a single filter, multiple filters or nested filters.
       security:
         - Bearer: []
       parameters: []
@@ -2160,14 +2162,14 @@ components:
       properties:
         page:
           type: integer
-          description: Number of next page in the result set.
+          description: Number of the next page in the result set.
           example: 4
         starting_after:
           type: string
-          nullable: true
           description: 'Cursor value to be provided in the next call to the pagination query, to return the next set of results.'
           minLength: 1
           example: 1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n
+          nullable: true
       required:
         - page
     PagesCursor:
@@ -2350,10 +2352,10 @@ components:
           example: ecahpwf5
         external_id:
           type: string
-          nullable: true
           minLength: 1
           description: "\t\nA unique identifier for the contact which is given to Intercom."
           example: '25'
+          nullable: true
         role:
           type: string
           minLength: 1
@@ -2361,178 +2363,178 @@ components:
           example: user
         email:
           type: string
-          nullable: true
           minLength: 1
-          description: The contacts email.
+          description: The contact's email.
           example: wash@serenity.io
+          nullable: true
         phone:
           type: string
-          nullable: true
-          description: "\t\nThe contacts phone."
+          description: The contact's phone.
           example: '+1123456789'
+          nullable: true
         name:
           type: string
-          nullable: true
           minLength: 1
-          description: The contacts name.
+          description: The contact's name.
           example: Hoban Washburn
+          nullable: true
         avatar:
           type: string
-          nullable: true
           minLength: 1
           description: An image URL containing the avatar of a contact.
           example: 'https://example.org/128Wash.jpg'
           format: uri
+          nullable: true
         owner_id:
           type: integer
-          nullable: true
           description: The id of an admin that has been assigned account ownership of the contact.
           example: 127
+          nullable: true
         social_profiles:
           $ref: '#/components/schemas/SocialProfileList'
         has_hard_bounced:
           type: boolean
-          nullable: true
           description: Whether the contact has had an email sent to them hard bounce.
+          nullable: true
         marked_email_as_spam:
           type: boolean
-          nullable: true
           description: Whether the contact has marked an email sent to them as spam.
+          nullable: true
         unsubscribed_from_emails:
           type: boolean
-          nullable: true
           description: Whether the contact is unsubscribed from emails.
+          nullable: true
         created_at:
           type: number
           description: The time when the contact was created. UNIX timestamp.
           example: 1571672154
         updated_at:
           type: integer
-          nullable: true
           description: The time when the contact was last updated. UNIX timestamp.
           example: 1571672158
+          nullable: true
         signed_up_at:
           type: integer
-          nullable: true
           description: The time specified for when a contact signed up. UNIX timestamp.
           example: 1571069751
+          nullable: true
         last_seen_at:
           type: integer
-          nullable: true
           description: The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). UNIX timestamp.
           example: 1571069751
+          nullable: true
         last_replied_at:
           type: integer
-          nullable: true
           description: The time when the contact last messaged in. UNIX timestamp.
           example: 1571672158
+          nullable: true
         last_contacted_at:
           type: integer
-          nullable: true
           description: The time when the contact was last messaged. UNIX timestamp.
           example: 1571672158
+          nullable: true
         last_email_opened_at:
           type: integer
-          nullable: true
           description: The time when the contact last opened an email. UNIX timestamp.
           example: 1571673478
+          nullable: true
         last_email_clicked_at:
           type: integer
-          nullable: true
           description: The time when the contact last clicked a link in an email. UNIX timestamp.
           example: 1571676789
+          nullable: true
         language_override:
           type: string
-          nullable: true
           description: 'A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change.'
           minLength: 1
           example: es
+          nullable: true
         browser:
           type: string
-          nullable: true
           minLength: 1
           description: The name of the browser which the contact is using.
           example: chrome
+          nullable: true
         browser_version:
           type: string
-          nullable: true
           minLength: 1
           description: The version of the browser which the contact is using.
           example: 77.0.3865.90
+          nullable: true
         browser_language:
           type: string
-          nullable: true
           minLength: 1
           description: The language set by the browser which the contact is using.
           example: en
+          nullable: true
         os:
           type: string
-          nullable: true
           minLength: 1
           description: The operating system which the contact is using.
           example: OS X 10.14.6
+          nullable: true
         location:
           $ref: '#/components/schemas/Location'
         android_app_name:
           type: string
-          nullable: true
           description: "\t\nThe name of the Android app which the contact is using."
           minLength: 1
+          nullable: true
         android_app_version:
           type: string
-          nullable: true
           description: The version of the Android app which the contact is using.
           minLength: 1
+          nullable: true
         android_device:
           type: string
-          nullable: true
           description: The Android device which the contact is using.
           minLength: 1
+          nullable: true
         android_os_version:
           type: string
-          nullable: true
           description: The version of the Android OS which the contact is using.
           minLength: 1
+          nullable: true
         android_sdk_version:
           type: string
-          nullable: true
           description: The version of the Android SDK which the contact is using.
           minLength: 1
+          nullable: true
         android_last_seen_at:
           type: integer
-          nullable: true
           description: The last time the contact used the Android app. UNIX timestamp.
           example: 1571069751
+          nullable: true
         ios_app_name:
           type: string
-          nullable: true
           description: The name of the iOS app which the contact is using.
           minLength: 1
+          nullable: true
         ios_app_version:
           type: string
-          nullable: true
           minLength: 1
           description: The version of the iOS app which the contact is using.
+          nullable: true
         ios_device:
           type: string
-          nullable: true
           minLength: 1
           description: The iOS device which the contact is using.
+          nullable: true
         ios_os_version:
           type: string
-          nullable: true
           minLength: 1
           description: The version of iOS which the contact is using.
+          nullable: true
         ios_sdk_version:
           type: string
-          nullable: true
           minLength: 1
           description: The version of the iOS SDK which the contact is using.
+          nullable: true
         ios_last_seen_at:
           type: integer
-          nullable: true
           description: The last time the contact used the iOS app. UNIX timestamp.
           example: 1571069751
+          nullable: true
         custom_attributes:
           type: object
           description: The custom attributes which are set for the contact.
@@ -2714,12 +2716,12 @@ components:
         code:
           type: string
           minLength: 1
-          description: Error code
+          description: 'A string indicating the kind of error, used to further qualify the HTTP response code'
           example: not_found
         message:
           type: string
           minLength: 1
-          description: Error message
+          description: Optional. Human readable description of the error
           example: 'No such email[pi@example.org]'
         field:
           type: string
@@ -2748,7 +2750,7 @@ components:
           type: array
           uniqueItems: true
           minItems: 1
-          description: A list of one or more error objects.
+          description: An array of one or more error objects
           items:
             $ref: '#/components/schemas/Error'
       required:
@@ -3196,7 +3198,7 @@ components:
         next:
           type: string
           minLength: 1
-          description: An url to the next page in the result set.
+          description: An url to the next page in the result set. A response that does not contain a `next` link does not have further data to fetch.
           format: uri
           example: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
         page:
