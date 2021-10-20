@@ -29,10 +29,23 @@ paths:
                     body: Hey is the new thing in stock?
                     message_type: inapp
                     conversation_id: 36000324324
+
         "400":
           $ref: "#/components/responses/BadRequest"
       tags:
         - Conversations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateConversationRequest"
+            examples:
+              Create Conversation:
+                value:
+                  from:
+                    type: user
+                    id: 536e564f316c83104c000020
+                  body: Hey
   /contacts:
     get:
       summary: List all contacts
@@ -3835,11 +3848,11 @@ components:
     UpdateContactRequest:
       value:
         role: user
-        external_id: "25"
+        external_id: 25
         email: wash@serenity.io
-        phone: "+1123456789"
+        phone: +1123456789
         name: Hoban Washburn
-        avatar: "https://example.org/128Wash.jpg"
+        avatar: https://example.org/128Wash.jpg
         last_seen_at: 1571069751
         signed_up_at: 1571069751
         owner_id: 127
@@ -3852,3 +3865,4 @@ tags:
   - name: Contacts
   - name: Notes
   - name: Companies
+  - name: Conversations
