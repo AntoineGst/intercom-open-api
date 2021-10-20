@@ -1,24 +1,48 @@
 openapi: 3.0.0
 info:
   title: Intercom REST API
-  version: '2.2'
+  version: "2.2"
   contact:
-    url: 'https://developers.intercom.com/building-apps'
+    url: "https://developers.intercom.com/building-apps"
     name: Intercom Developer Hub
-  description: 'Retrieve information, keep your data in sync, or take actions programmatically through Intercom''s API.'
+  description: "Retrieve information, keep your data in sync, or take actions programmatically through Intercom's API."
 servers:
-  - url: 'https://api.intercom.io'
+  - url: "https://api.intercom.io"
 paths:
-  /contacts:
-    get:
-      summary: List all contacts
+  /conversations:
+    post:
+      operationId: post-conversations
+      summary: create a conversation.
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContactList'
+                $ref: "#/components/schemas/Message"
+              examples:
+                Message:
+                  value:
+                    type: user_message
+                    id: 2001
+                    created_at: 1401917202
+                    body: Hey is the new thing in stock?
+                    message_type: inapp
+                    conversation_id: 36000324324
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      tags:
+        - Conversations
+  /contacts:
+    get:
+      summary: List all contacts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactList"
               examples:
                 Contact List:
                   value:
@@ -27,19 +51,19 @@ paths:
                       - type: contact
                         id: 5ba682d23d7cf92bef87bfd4
                         workspace_id: ecahpwf5
-                        external_id: '25'
+                        external_id: "25"
                         role: user
                         email: wash@serenity.io
-                        phone: '+1123456789'
+                        phone: "+1123456789"
                         name: Hoban Washburn
-                        avatar: 'https://example.org/128Wash.jpg'
+                        avatar: "https://example.org/128Wash.jpg"
                         owner_id: 127
                         social_profiles:
                           type: list
                           data:
                             - type: social_profile
                               name: Twitter
-                              url: 'http://twitter.com/th1sland'
+                              url: "http://twitter.com/th1sland"
                         unsubscribed_from_emails: false
                         created_at: 1571672154
                         updated_at: 1571672158
@@ -66,20 +90,20 @@ paths:
                           type: list
                           data:
                             - type: tag
-                              id: '2'
+                              id: "2"
                               url: /tags/2
                             - type: tag
-                              id: '4'
+                              id: "4"
                               url: /tags/4
                             - type: tag
-                              id: '5'
+                              id: "5"
                               url: /tags/5
                           url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                         notes:
                           type: list
                           data:
                             - type: note
-                              id: '20114858'
+                              id: "20114858"
                               url: /notes/20114858
                           url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                         companies:
@@ -104,8 +128,8 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        '400':
-          $ref: '#/components/responses/BadRequest'
+        "400":
+          $ref: "#/components/responses/BadRequest"
       operationId: get-contacts
       description: Fetch a list of all contacts.
       parameters:
@@ -125,39 +149,37 @@ paths:
           in: query
           name: starting_after
           description: The cursor used for pagination in order to fetch the next page of results.
-      security:
-        - Bearer: []
       tags:
         - Contacts
     post:
       summary: Create a contact
       operationId: post-contacts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
               examples:
                 Contact:
                   value:
                     type: contact
                     id: 5ba682d23d7cf92bef87bfd4
                     workspace_id: ecahpwf5
-                    external_id: '25'
+                    external_id: "25"
                     role: user
                     email: wash@serenity.io
-                    phone: '+1123456789'
+                    phone: "+1123456789"
                     name: Hoban Washburn
-                    avatar: 'https://example.org/128Wash.jpg'
+                    avatar: "https://example.org/128Wash.jpg"
                     owner_id: 127
                     social_profiles:
                       type: list
                       data:
                         - type: social_profile
                           name: Twitter
-                          url: 'http://twitter.com/th1sland'
+                          url: "http://twitter.com/th1sland"
                     has_hard_bounced: false
                     marked_email_as_spam: false
                     unsubscribed_from_emails: false
@@ -199,13 +221,13 @@ paths:
                       type: list
                       data:
                         - type: tag
-                          id: '2'
+                          id: "2"
                           url: /tags/2
                         - type: tag
-                          id: '4'
+                          id: "4"
                           url: /tags/4
                         - type: tag
-                          id: '5'
+                          id: "5"
                           url: /tags/5
                       url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                       total_count: 3
@@ -214,7 +236,7 @@ paths:
                       type: list
                       data:
                         - type: note
-                          id: '20114858'
+                          id: "20114858"
                           url: /notes/20114858
                       url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                       total_count: 1
@@ -234,12 +256,12 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact already exists:
                   value:
@@ -256,24 +278,22 @@ paths:
                       - code: parameter_invalid
                         message: The owner specified is not a member of the workspace
       description: Create a new contact (ie. user or lead).
-      security:
-        - Bearer: []
       tags:
         - Contacts
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateContactRequest'
+              $ref: "#/components/schemas/UpdateContactRequest"
             examples:
               Create User:
                 value:
                   role: user
-                  external_id: '25'
+                  external_id: "25"
                   email: wash@serenity.io
-                  phone: '+1123456789'
+                  phone: "+1123456789"
                   name: Hoban Washburn
-                  avatar: 'https://example.org/128Wash.jpg'
+                  avatar: "https://example.org/128Wash.jpg"
                   last_seen_at: 1571069751
                   signed_up_at: 1571069751
                   owner_id: 127
@@ -287,12 +307,12 @@ paths:
       summary: Search for contacts
       operationId: post-contacts-search
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContactList'
+                $ref: "#/components/schemas/ContactList"
               examples:
                 Contact List:
                   value:
@@ -301,19 +321,19 @@ paths:
                       - type: contact
                         id: 5ba682d23d7cf92bef87bfd4
                         workspace_id: ecahpwf5
-                        external_id: '25'
+                        external_id: "25"
                         role: user
                         email: wash@serenity.io
-                        phone: '+1123456789'
+                        phone: "+1123456789"
                         name: Hoban Washburn
-                        avatar: 'https://example.org/128Wash.jpg'
+                        avatar: "https://example.org/128Wash.jpg"
                         owner_id: 127
                         social_profiles:
                           type: list
                           data:
                             - type: social_profile
                               name: Twitter
-                              url: 'http://twitter.com/th1sland'
+                              url: "http://twitter.com/th1sland"
                         unsubscribed_from_emails: false
                         created_at: 1571672154
                         updated_at: 1571672158
@@ -340,20 +360,20 @@ paths:
                           type: list
                           data:
                             - type: tag
-                              id: '2'
+                              id: "2"
                               url: /tags/2
                             - type: tag
-                              id: '4'
+                              id: "4"
                               url: /tags/4
                             - type: tag
-                              id: '5'
+                              id: "5"
                               url: /tags/5
                           url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                         notes:
                           type: list
                           data:
                             - type: note
-                              id: '20114858'
+                              id: "20114858"
                               url: /notes/20114858
                           url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                         companies:
@@ -378,12 +398,12 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Invalid Parameters:
                   value:
@@ -398,7 +418,7 @@ paths:
                     request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
                     errors:
                       - code: invalid_query
-                        message: 'Invalid query. Ensure ''field'', ''operator'', ''value'' are present for field queries. Ensure ''operator'' and ''value'' for composite queries.'
+                        message: "Invalid query. Ensure 'field', 'operator', 'value' are present for field queries. Ensure 'operator' and 'value' for composite queries."
                 Too Many Nested Values (Max 10):
                   value:
                     type: error.list
@@ -426,29 +446,27 @@ paths:
                     request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
                     errors:
                       - code: invalid_operator
-                        message: 'Composite operators must be of type AND or OR '
+                        message: "Composite operators must be of type AND or OR "
                 Invalid Value Operator:
                   value:
                     type: error.list
                     request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
                     errors:
                       - code: invalid_operator
-                        message: 'email does not support operator: >'
+                        message: "email does not support operator: >"
                 Too Many Values (Max 15):
                   value:
                     type: error.list
                     request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
                     errors:
                       - code: invalid_value
-                        message: 'Number of elements in composite query is greater than 15, please try again with a smaller list'
+                        message: "Number of elements in composite query is greater than 15, please try again with a smaller list"
       description: |-
         You can search for multiple contacts by the value of their attributes in order to fetch exactly who you want.
 
         To search for contacts, you need to send a POST request to this endpoint. This will accept a query object in the body which will define your filters in order to search for contacts.
 
         Look at the examples for creating a single filter, multiple filters or nested filters.
-      security:
-        - Bearer: []
       parameters: []
       requestBody:
         content:
@@ -460,7 +478,7 @@ paths:
                 value:
                   query:
                     field: custom_attributes.salesforce_status
-                    operator: '~'
+                    operator: "~"
                     value: open
               Multiple Filters:
                 value:
@@ -468,13 +486,13 @@ paths:
                     operator: AND
                     value:
                       - field: custom_attributes.social_network
-                        operator: '='
+                        operator: "="
                         value: facebook
                       - field: custom_attributes.social_network
-                        operator: '='
+                        operator: "="
                         value: twitter
                       - field: custom_attributes.social_network
-                        operator: '='
+                        operator: "="
                         value: instagram
               Nested Filters:
                 value:
@@ -484,23 +502,23 @@ paths:
                       - operator: OR
                         value:
                           - field: created_at
-                            operator: '>'
+                            operator: ">"
                             value: 1560436650
                           - field: signed_up_at
-                            operator: '>'
+                            operator: ">"
                             value: 1560436784
                       - operator: OR
                         value:
                           - field: custom_attributes.salseforce_status
-                            operator: '~'
+                            operator: "~"
                             value: Open
                           - field: custom_attributes.salesforce_object_type
-                            operator: '='
+                            operator: "="
                             value: Lead
-        description: ''
+        description: ""
       tags:
         - Contacts
-  '/contacts/{id}':
+  "/contacts/{id}":
     parameters:
       - schema:
           type: string
@@ -514,31 +532,31 @@ paths:
       summary: Update a contact
       operationId: put-contacts-id
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
               examples:
                 Contact:
                   value:
                     type: contact
                     id: 5ba682d23d7cf92bef87bfd4
                     workspace_id: ecahpwf5
-                    external_id: '25'
+                    external_id: "25"
                     role: user
                     email: wash@serenity.io
-                    phone: '+1123456789'
+                    phone: "+1123456789"
                     name: Hoban Washburn
-                    avatar: 'https://example.org/128Wash.jpg'
+                    avatar: "https://example.org/128Wash.jpg"
                     owner_id: 127
                     social_profiles:
                       type: list
                       data:
                         - type: social_profile
                           name: Twitter
-                          url: 'http://twitter.com/th1sland'
+                          url: "http://twitter.com/th1sland"
                     has_hard_bounced: false
                     marked_email_as_spam: false
                     unsubscribed_from_emails: false
@@ -580,13 +598,13 @@ paths:
                       type: list
                       data:
                         - type: tag
-                          id: '2'
+                          id: "2"
                           url: /tags/2
                         - type: tag
-                          id: '4'
+                          id: "4"
                           url: /tags/4
                         - type: tag
-                          id: '5'
+                          id: "5"
                           url: /tags/5
                       url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                       total_count: 3
@@ -595,7 +613,7 @@ paths:
                       type: list
                       data:
                         - type: note
-                          id: '20114858'
+                          id: "20114858"
                           url: /notes/20114858
                       url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                       total_count: 1
@@ -615,12 +633,12 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -651,22 +669,20 @@ paths:
                       - code: parameter_invalid
                         message: The owner specified is not a member of the workspace
       description: Update an existing contact (ie. user or lead).
-      security:
-        - Bearer: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateContactRequest'
+              $ref: "#/components/schemas/UpdateContactRequest"
             examples:
               Update User:
                 value:
                   role: user
-                  external_id: '25'
+                  external_id: "25"
                   email: wash@serenity.io
-                  phone: '+1123456789'
+                  phone: "+1123456789"
                   name: Hoban Washburn
-                  avatar: 'https://example.org/128Wash.jpg'
+                  avatar: "https://example.org/128Wash.jpg"
                   last_seen_at: 1571069751
                   signed_up_at: 1571069751
                   owner_id: 127
@@ -681,31 +697,31 @@ paths:
       summary: Retrieve a contact
       operationId: get-contacts-id
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
               examples:
                 Contact:
                   value:
                     type: contact
                     id: 5ba682d23d7cf92bef87bfd4
                     workspace_id: ecahpwf5
-                    external_id: '25'
+                    external_id: "25"
                     role: user
                     email: wash@serenity.io
-                    phone: '+1123456789'
+                    phone: "+1123456789"
                     name: Hoban Washburn
-                    avatar: 'https://example.org/128Wash.jpg'
+                    avatar: "https://example.org/128Wash.jpg"
                     owner_id: 127
                     social_profiles:
                       type: list
                       data:
                         - type: social_profile
                           name: Twitter
-                          url: 'http://twitter.com/th1sland'
+                          url: "http://twitter.com/th1sland"
                     has_hard_bounced: false
                     marked_email_as_spam: false
                     unsubscribed_from_emails: false
@@ -747,13 +763,13 @@ paths:
                       type: list
                       data:
                         - type: tag
-                          id: '2'
+                          id: "2"
                           url: /tags/2
                         - type: tag
-                          id: '4'
+                          id: "4"
                           url: /tags/4
                         - type: tag
-                          id: '5'
+                          id: "5"
                           url: /tags/5
                       url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                       total_count: 3
@@ -762,7 +778,7 @@ paths:
                       type: list
                       data:
                         - type: note
-                          id: '20114858'
+                          id: "20114858"
                           url: /notes/20114858
                       url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                       total_count: 1
@@ -782,12 +798,12 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -797,26 +813,24 @@ paths:
                       - code: not_found
                         message: Contact Not Found
       description: Fetch the details of a single contact.
-      security:
-        - Bearer: []
       tags:
         - Contacts
     delete:
       summary: Delete a contact
       operationId: delete-contacts-id
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeleteContactResponse'
-        '404':
+                $ref: "#/components/schemas/DeleteContactResponse"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -826,11 +840,9 @@ paths:
                       - code: not_found
                         message: Contact Not Found
       description: Delete a single contact.
-      security:
-        - Bearer: []
       tags:
         - Contacts
-  '/contacts/{id}/archive':
+  "/contacts/{id}/archive":
     parameters:
       - schema:
           type: string
@@ -841,18 +853,18 @@ paths:
       summary: Archive a contact
       operationId: post-contacts-id-archive
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArchiveContactResponse'
-        '404':
+                $ref: "#/components/schemas/ArchiveContactResponse"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -861,12 +873,10 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
-      security:
-        - Bearer: []
       description: Archive a single contact.
       tags:
         - Contacts
-  '/contacts/{id}/unarchive':
+  "/contacts/{id}/unarchive":
     parameters:
       - schema:
           type: string
@@ -877,18 +887,18 @@ paths:
       summary: Unarchive a contact
       operationId: post-contacts-id-unarchive
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArchiveContactResponse'
-        '404':
+                $ref: "#/components/schemas/ArchiveContactResponse"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -897,8 +907,6 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
-      security:
-        - Bearer: []
       description: Unarchive a single contact.
       tags:
         - Contacts
@@ -907,31 +915,31 @@ paths:
       summary: Merge two contacts
       operationId: post-contacts-merge
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
               examples:
                 Contact:
                   value:
                     type: contact
                     id: 5ba682d23d7cf92bef87bfd4
                     workspace_id: ecahpwf5
-                    external_id: '25'
+                    external_id: "25"
                     role: user
                     email: wash@serenity.io
-                    phone: '+1123456789'
+                    phone: "+1123456789"
                     name: Hoban Washburn
-                    avatar: 'https://example.org/128Wash.jpg'
+                    avatar: "https://example.org/128Wash.jpg"
                     owner_id: 127
                     social_profiles:
                       type: list
                       data:
                         - type: social_profile
                           name: Twitter
-                          url: 'http://twitter.com/th1sland'
+                          url: "http://twitter.com/th1sland"
                     has_hard_bounced: false
                     marked_email_as_spam: false
                     unsubscribed_from_emails: false
@@ -973,13 +981,13 @@ paths:
                       type: list
                       data:
                         - type: tag
-                          id: '2'
+                          id: "2"
                           url: /tags/2
                         - type: tag
-                          id: '4'
+                          id: "4"
                           url: /tags/4
                         - type: tag
-                          id: '5'
+                          id: "5"
                           url: /tags/5
                       url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                       total_count: 3
@@ -988,7 +996,7 @@ paths:
                       type: list
                       data:
                         - type: note
-                          id: '20114858'
+                          id: "20114858"
                           url: /notes/20114858
                       url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                       total_count: 1
@@ -1008,12 +1016,12 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Not merging from lead to user:
                   value:
@@ -1022,12 +1030,12 @@ paths:
                     errors:
                       - code: invalid_merge
                         message: Merging can only be performed on a lead into a user
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1041,17 +1049,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MergeContactsRequest'
+              $ref: "#/components/schemas/MergeContactsRequest"
             examples:
               Merge Request:
                 value:
                   from: 5d70dd30de4efd54f42fd526
                   into: 5ba682d23d7cf92bef87bfd4
-      security:
-        - Bearer: []
       tags:
         - Contacts
-  '/contacts/{id}/companies':
+  "/contacts/{id}/companies":
     parameters:
       - schema:
           type: string
@@ -1064,19 +1070,19 @@ paths:
       tags:
         - Contacts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompanyList'
+                $ref: "#/components/schemas/CompanyList"
               examples:
                 Company List:
                   value:
                     type: company.list
                     pages:
                       type: pages
-                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      next: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2"
                       page: 1
                       per_page: 50
                       total_pages: 26
@@ -1086,14 +1092,14 @@ paths:
                         name: Blue Sun
                         plan:
                           type: plan
-                          id: '33574'
+                          id: "33574"
                           name: premium.plan
-                        company_id: '6'
+                        company_id: "6"
                         remote_created_at: 1394531169
                         created_at: 1394533506
                         updated_at: 1396874658
                         size: 85
-                        website: 'http://www.example.com'
+                        website: "http://www.example.com"
                         industry: Manufacturing
                         monthly_spend: 49
                         session_count: 26
@@ -1106,12 +1112,12 @@ paths:
                           segments: []
                         custom_attributes: {}
                     total_count: 1
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1122,18 +1128,16 @@ paths:
                         message: Contact Not Found
       operationId: get-contacts-id-companies
       description: Fetch a list of companies that are associated to a contact.
-      security:
-        - Bearer: []
     post:
       summary: Attach a contact
       operationId: post-contacts-id-companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
               examples:
                 Company:
                   value:
@@ -1142,14 +1146,14 @@ paths:
                     name: Blue Sun
                     plan:
                       type: plan
-                      id: '33574'
+                      id: "33574"
                       name: premium.plan
-                    company_id: '6'
+                    company_id: "6"
                     remote_created_at: 1394531169
                     created_at: 1394533506
                     updated_at: 1396874658
                     size: 85
-                    website: 'http://www.example.com'
+                    website: "http://www.example.com"
                     industry: Manufacturing
                     monthly_spend: 49
                     session_count: 26
@@ -1160,7 +1164,7 @@ paths:
                     tags:
                       type: tag.list
                       tags:
-                        - id: '17513'
+                        - id: "17513"
                           name: independent
                           type: tag
                     segments:
@@ -1173,12 +1177,12 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1197,18 +1201,16 @@ paths:
       tags:
         - Companies
       description: Attach a company to a single contact.
-      security:
-        - Bearer: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AttachCompanyToContactRequest'
+              $ref: "#/components/schemas/AttachCompanyToContactRequest"
             examples:
               Attach Contact Request:
                 value:
                   id: 56cde0cc3deab1bd8c000100
-  '/contacts/{id}/tags':
+  "/contacts/{id}/tags":
     parameters:
       - schema:
           type: string
@@ -1221,26 +1223,26 @@ paths:
       tags:
         - Contacts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TagList'
+                $ref: "#/components/schemas/TagList"
               examples:
                 Tag List:
                   value:
                     type: list
                     data:
-                      - id: '17513'
+                      - id: "17513"
                         name: independent
                         type: tag
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1251,9 +1253,7 @@ paths:
                         message: Contact Not Found
       operationId: get-contacts-id-tags
       description: Fetch a list of tags that are associated to a contact.
-      security:
-        - Bearer: []
-  '/contacts/{id}/segments':
+  "/contacts/{id}/segments":
     parameters:
       - schema:
           type: string
@@ -1266,12 +1266,12 @@ paths:
       tags:
         - Contacts
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SegmentList'
+                $ref: "#/components/schemas/SegmentList"
               examples:
                 Segment List:
                   value:
@@ -1284,12 +1284,12 @@ paths:
                         updated_at: 1394622004
                         person_type: user
                         count: 148
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1300,9 +1300,7 @@ paths:
                         message: Contact Not Found
       operationId: get-contacts-id-segments
       description: Fetch a list of segments that are associated to a contact.
-      security:
-        - Bearer: []
-  '/contacts/{id}/notes':
+  "/contacts/{id}/notes":
     parameters:
       - schema:
           type: string
@@ -1315,24 +1313,24 @@ paths:
       tags:
         - Notes
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NoteList'
+                $ref: "#/components/schemas/NoteList"
               examples:
                 Notes List:
                   value:
                     type: list
                     data:
                       - type: note
-                        id: '16'
+                        id: "16"
                         created_at: 1389913941
                         body: <p>Text for my note</p>
                         author:
                           type: admin
-                          id: '21'
+                          id: "21"
                           name: Jayne Cobb
                           email: jayne@serenity.io
                         user:
@@ -1340,17 +1338,17 @@ paths:
                           id: 5310d8e8598c9a0b24000005
                     pages:
                       type: pages
-                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      next: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2"
                       page: 1
                       per_page: 50
                       total_pages: 26
                     total_count: 3
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1361,7 +1359,7 @@ paths:
                         message: Contact Not Found
             application/xml:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1372,28 +1370,26 @@ paths:
                         message: Contact Not Found
       operationId: get-contacts-id-notes
       description: Fetch a list of notes that are associated to a contact.
-      security:
-        - Bearer: []
     post:
       summary: Create a note
       operationId: post-contacts-id-notes
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Note'
+                $ref: "#/components/schemas/Note"
               examples:
                 Note:
                   value:
                     type: note
-                    id: '16'
+                    id: "16"
                     created_at: 1389913941
                     body: <p>Text for my note</p>
                     author:
                       type: admin
-                      id: '21'
+                      id: "21"
                       name: Jayne Cobb
                       email: jayne@serenity.io
                       job_title: The job title of the admin
@@ -1402,16 +1398,16 @@ paths:
                       has_inbox_seat: true
                       team_ids:
                         - 814865
-                      avatar: 'http://example.org/128Jayne.jpg'
+                      avatar: "http://example.org/128Jayne.jpg"
                     user:
                       type: user
                       id: 5310d8e8598c9a0b24000005
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1430,38 +1426,36 @@ paths:
       tags:
         - Notes
       description: Create a note on a single contact.
-      security:
-        - Bearer: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateNoteRequest'
+              $ref: "#/components/schemas/CreateNoteRequest"
             examples:
               Example:
                 value:
                   body: Shiny
-                  admin_id: '12345'
-        description: ''
+                  admin_id: "12345"
+        description: ""
   /companies:
     get:
       summary: List all companies
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompanyList'
+                $ref: "#/components/schemas/CompanyList"
               examples:
                 Company List:
                   value:
                     type: company.list
                     pages:
                       type: pages
-                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      next: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2"
                       page: 1
                       per_page: 50
                       total_pages: 26
@@ -1471,14 +1465,14 @@ paths:
                         name: Blue Sun
                         plan:
                           type: plan
-                          id: '33574'
+                          id: "33574"
                           name: premium.plan
-                        company_id: '6'
+                        company_id: "6"
                         remote_created_at: 1394531169
                         created_at: 1394533506
                         updated_at: 1396874658
                         size: 85
-                        website: 'http://www.example.com'
+                        website: "http://www.example.com"
                         industry: Manufacturing
                         monthly_spend: 49
                         session_count: 26
@@ -1489,7 +1483,7 @@ paths:
                         tags:
                           type: tag.list
                           tags:
-                            - id: '17513'
+                            - id: "17513"
                               name: independent
                               type: tag
                         segments:
@@ -1503,15 +1497,13 @@ paths:
                               person_type: user
                               count: 148
                     total_count: 1
-        '400':
-          $ref: '#/components/responses/BadRequest'
+        "400":
+          $ref: "#/components/responses/BadRequest"
       operationId: get-companies
       description: |-
         You can list companies. The company list is sorted by the last_request_at field and by default is ordered descending, most recently requested first.
 
         Note that the API does not include companies who have no associated users in list responses.
-      security:
-        - Bearer: []
       parameters:
         - schema:
             type: integer
@@ -1541,12 +1533,12 @@ paths:
       summary: Create or update a company
       operationId: post-companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
               examples:
                 Company:
                   value:
@@ -1555,14 +1547,14 @@ paths:
                     name: Blue Sun
                     plan:
                       type: plan
-                      id: '33574'
+                      id: "33574"
                       name: premium.plan
-                    company_id: '6'
+                    company_id: "6"
                     remote_created_at: 1394531169
                     created_at: 1394533506
                     updated_at: 1396874658
                     size: 85
-                    website: 'http://www.example.com'
+                    website: "http://www.example.com"
                     industry: Manufacturing
                     monthly_spend: 49
                     session_count: 26
@@ -1573,7 +1565,7 @@ paths:
                     tags:
                       type: tag.list
                       tags:
-                        - id: '17513'
+                        - id: "17513"
                           name: independent
                           type: tag
                     segments:
@@ -1586,30 +1578,28 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        '404':
-          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: "#/components/responses/BadRequest"
       tags:
         - Companies
       description: |-
         You can create or update a company.
 
         Companies are looked up via company_id in a POST request, if not found via company_id, the new company will be created, if found, that company will be updated.
-      security:
-        - Bearer: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCompanyRequest'
+              $ref: "#/components/schemas/UpdateCompanyRequest"
             examples:
               Update Company Request:
                 value:
                   name: Blue Sun
                   plan: Paid
-                  company_id: '6'
+                  company_id: "6"
                   remote_created_at: 1394531169
                   size: 750
-                  website: 'http://www.example.com'
+                  website: "http://www.example.com"
                   industry: Manufacturing
                   custom_attributes:
                     paid_subscriber: true
@@ -1621,19 +1611,19 @@ paths:
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompanyList'
+                $ref: "#/components/schemas/CompanyList"
               examples:
                 Company List:
                   value:
                     type: company.list
                     pages:
                       type: pages
-                      next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+                      next: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2"
                       page: 1
                       per_page: 50
                       total_pages: 26
@@ -1643,14 +1633,14 @@ paths:
                         name: Blue Sun
                         plan:
                           type: plan
-                          id: '33574'
+                          id: "33574"
                           name: premium.plan
-                        company_id: '6'
+                        company_id: "6"
                         remote_created_at: 1394531169
                         created_at: 1394533506
                         updated_at: 1396874658
                         size: 85
-                        website: 'http://www.example.com'
+                        website: "http://www.example.com"
                         industry: Manufacturing
                         monthly_spend: 49
                         session_count: 26
@@ -1661,7 +1651,7 @@ paths:
                         tags:
                           type: tag.list
                           tags:
-                            - id: '17513'
+                            - id: "17513"
                               name: independent
                               type: tag
                         segments:
@@ -1676,12 +1666,12 @@ paths:
                               count: 148
                     total_count: 1
                     scroll_param: 25b649f7-4d33-4ef6-88f5-60e5b8244309
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Scroll parameter not found:
                   value:
@@ -1697,8 +1687,6 @@ paths:
         * Each app can only have 1 scroll open at a time. You'll get an error message if you try to have more than one open per app.
         * If the scroll isn't used for 1 minute, it expires and calls with that scroll param will fail
         * If the end of the scroll is reached, "companies" will be empty and the scroll parameter will expire
-      security:
-        - Bearer: []
       parameters:
         - schema:
             type: string
@@ -1711,12 +1699,12 @@ paths:
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
               examples:
                 Company:
                   value:
@@ -1725,14 +1713,14 @@ paths:
                     name: Blue Sun
                     plan:
                       type: plan
-                      id: '33574'
+                      id: "33574"
                       name: premium.plan
-                    company_id: '6'
+                    company_id: "6"
                     remote_created_at: 1394531169
                     created_at: 1394533506
                     updated_at: 1396874658
                     size: 85
-                    website: 'http://www.example.com'
+                    website: "http://www.example.com"
                     industry: Manufacturing
                     monthly_spend: 49
                     session_count: 26
@@ -1743,7 +1731,7 @@ paths:
                     tags:
                       type: tag.list
                       tags:
-                        - id: '17513'
+                        - id: "17513"
                           name: independent
                           type: tag
                     segments:
@@ -1756,12 +1744,12 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Company not found:
                   value:
@@ -1772,8 +1760,6 @@ paths:
                         message: Company Not Found
       operationId: get-company
       description: Fetch a single company.
-      security:
-        - Bearer: []
       parameters:
         - schema:
             type: string
@@ -1785,7 +1771,7 @@ paths:
           in: query
           name: company_id
           description: The company_id you have given to the company.
-  '/companies/{id}':
+  "/companies/{id}":
     parameters:
       - schema:
           type: string
@@ -1797,24 +1783,24 @@ paths:
       summary: Delete a company
       operationId: delete-companies-id
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeleteCompanyResponse'
+                $ref: "#/components/schemas/DeleteCompanyResponse"
               examples:
                 Deleted Company:
                   value:
                     id: 5ba682d23d7cf92bef87bfd4
                     object: company
                     deleted: true
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Company not found:
                   value:
@@ -1826,9 +1812,7 @@ paths:
       description: Delete a single company.
       tags:
         - Companies
-      security:
-        - Bearer: []
-  '/contacts/{id}/companies/{companyId}':
+  "/contacts/{id}/companies/{companyId}":
     parameters:
       - schema:
           type: string
@@ -1847,12 +1831,12 @@ paths:
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
               examples:
                 Company:
                   value:
@@ -1861,14 +1845,14 @@ paths:
                     name: Blue Sun
                     plan:
                       type: plan
-                      id: '33574'
+                      id: "33574"
                       name: premium.plan
-                    company_id: '6'
+                    company_id: "6"
                     remote_created_at: 1394531169
                     created_at: 1394533506
                     updated_at: 1396874658
                     size: 85
-                    website: 'http://www.example.com'
+                    website: "http://www.example.com"
                     industry: Manufacturing
                     monthly_spend: 49
                     session_count: 26
@@ -1879,7 +1863,7 @@ paths:
                     tags:
                       type: tag.list
                       tags:
-                        - id: '17513'
+                        - id: "17513"
                           name: independent
                           type: tag
                     segments:
@@ -1892,12 +1876,12 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Contact not found:
                   value:
@@ -1915,9 +1899,7 @@ paths:
                         message: Company Not Found
       operationId: get-contacts-id-companies-companyId
       description: Detach a company from a single contact.
-      security:
-        - Bearer: []
-  '/companies/{id}/contacts':
+  "/companies/{id}/contacts":
     parameters:
       - schema:
           type: string
@@ -1930,12 +1912,12 @@ paths:
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ContactList'
+                $ref: "#/components/schemas/ContactList"
               examples:
                 Contact List:
                   value:
@@ -1944,19 +1926,19 @@ paths:
                       - type: contact
                         id: 5ba682d23d7cf92bef87bfd4
                         workspace_id: ecahpwf5
-                        external_id: '25'
+                        external_id: "25"
                         role: user
                         email: wash@serenity.io
-                        phone: '+1123456789'
+                        phone: "+1123456789"
                         name: Hoban Washburn
-                        avatar: 'https://example.org/128Wash.jpg'
+                        avatar: "https://example.org/128Wash.jpg"
                         owner_id: 127
                         social_profiles:
                           type: list
                           data:
                             - type: social_profile
                               name: Twitter
-                              url: 'http://twitter.com/th1sland'
+                              url: "http://twitter.com/th1sland"
                         unsubscribed_from_emails: false
                         created_at: 1571672154
                         updated_at: 1571672158
@@ -1983,20 +1965,20 @@ paths:
                           type: list
                           data:
                             - type: tag
-                              id: '2'
+                              id: "2"
                               url: /tags/2
                             - type: tag
-                              id: '4'
+                              id: "4"
                               url: /tags/4
                             - type: tag
-                              id: '5'
+                              id: "5"
                               url: /tags/5
                           url: /contacts/5ba682d23d7cf92bef87bfd4/tags
                         notes:
                           type: list
                           data:
                             - type: note
-                              id: '20114858'
+                              id: "20114858"
                               url: /notes/20114858
                           url: /contacts/5ba682d23d7cf92bef87bfd4/notes
                         companies:
@@ -2021,12 +2003,12 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Invalid starting_after param:
                   value:
@@ -2035,12 +2017,12 @@ paths:
                     errors:
                       - code: client_error
                         message: Invalid starting_after param. Please try again using a starting_after value from a paginated response
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Company not found:
                   value:
@@ -2057,9 +2039,7 @@ paths:
           in: query
           name: starting_after
           description: The cursor used for pagination in order to fetch the next page of results.
-      security:
-        - Bearer: []
-  '/companies/{id}/segments':
+  "/companies/{id}/segments":
     parameters:
       - schema:
           type: string
@@ -2072,12 +2052,12 @@ paths:
       tags:
         - Companies
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SegmentList'
+                $ref: "#/components/schemas/SegmentList"
               examples:
                 Segment List:
                   value:
@@ -2090,12 +2070,12 @@ paths:
                         updated_at: 1394622004
                         person_type: user
                         count: 148
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: "#/components/schemas/Errors"
               examples:
                 Company not found:
                   value:
@@ -2106,9 +2086,7 @@ paths:
                         message: Company Not Found
       operationId: get-companies-id-segments
       description: Fetch a list of all segments that belong to a company.
-      security:
-        - Bearer: []
-  '/notes/{id}':
+  "/notes/{id}":
     parameters:
       - schema:
           type: string
@@ -2121,22 +2099,22 @@ paths:
       tags:
         - Notes
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Note'
+                $ref: "#/components/schemas/Note"
               examples:
                 Example:
                   value:
                     type: note
-                    id: '16'
+                    id: "16"
                     created_at: 1389913941
                     body: <p>Text for my note</p>
                     author:
                       type: admin
-                      id: '21'
+                      id: "21"
                       name: Jayne Cobb
                       email: jayne@serenity.io
                       job_title: The job title of the admin
@@ -2145,14 +2123,14 @@ paths:
                       has_inbox_seat: true
                       team_ids:
                         - 814865
-                      avatar: 'http://example.org/128Jayne.jpg'
+                      avatar: "http://example.org/128Jayne.jpg"
                     user:
                       type: user
                       id: 5310d8e8598c9a0b24000005
       operationId: get-notes-id
       description: Fetch the details of a single note.
-      security:
-        - Bearer: []
+security:
+  - Bearer: []
 components:
   schemas:
     Next:
@@ -2166,7 +2144,7 @@ components:
           example: 4
         starting_after:
           type: string
-          description: 'Cursor value to be provided in the next call to the pagination query, to return the next set of results.'
+          description: "Cursor value to be provided in the next call to the pagination query, to return the next set of results."
           minLength: 1
           example: 1HaSB+xrOyyMXAkS/c1RteCL7BzOzTvYjmjakgTergIH31eoe2v4/sbLsJWP\nIncfQLD3ouPkZlCwJ86F\n
           nullable: true
@@ -2183,7 +2161,7 @@ components:
           description: The type of object - pages.
           example: pages
         next:
-          $ref: '#/components/schemas/Next'
+          $ref: "#/components/schemas/Next"
         page:
           type: integer
           description: The current page.
@@ -2211,13 +2189,13 @@ components:
         name:
           type: string
           minLength: 1
-          description: 'The name of the service (ie. Twitter, Facebook, etc).'
+          description: "The name of the service (ie. Twitter, Facebook, etc)."
           example: Twitter
         url:
           type: string
           minLength: 1
           description: The profile page for the contact on the service.
-          example: 'http://twitter.com/th1sland'
+          example: "http://twitter.com/th1sland"
       required:
         - type
         - name
@@ -2238,7 +2216,8 @@ components:
           minItems: 1
           description: List of social profiles.
           items:
-            $ref: '#/components/schemas/SocialProfile'
+            $ref: "#/components/schemas/SocialProfile"
+          maxItems: 1000
       required:
         - type
         - data
@@ -2262,7 +2241,7 @@ components:
           type: string
           nullable: true
           minLength: 1
-          description: 'A subdivision of the country which the contact is in (ie. state, province, county, territory, etc).'
+          description: "A subdivision of the country which the contact is in (ie. state, province, county, territory, etc)."
           example: Dublin
         city:
           type: string
@@ -2280,7 +2259,7 @@ components:
         type:
           type: string
           minLength: 1
-          description: 'The type of object - company, note, tag.'
+          description: "The type of object - company, note, tag."
           example: company
         id:
           type: string
@@ -2314,7 +2293,8 @@ components:
             An array of Addressable Objects.
             Maximum of 10.
           items:
-            $ref: '#/components/schemas/AddressableObject'
+            $ref: "#/components/schemas/AddressableObject"
+          maxItems: 1000
         url:
           type: string
           nullable: true
@@ -2326,12 +2306,12 @@ components:
           example: 3
         has_more:
           type: boolean
-          description: 'Whether there''s more Addressable Objects to be viewed. If true, use the url to view all.'
+          description: "Whether there's more Addressable Objects to be viewed. If true, use the url to view all."
       required:
         - type
         - data
     Contact:
-      description: 'The Contacts Model provides details on these contacts within Intercom, and will specify whether they are a user or lead through the role attribute.'
+      description: "The Contacts Model provides details on these contacts within Intercom, and will specify whether they are a user or lead through the role attribute."
       type: object
       title: Contact
       properties:
@@ -2354,7 +2334,7 @@ components:
           type: string
           minLength: 1
           description: "\t\nA unique identifier for the contact which is given to Intercom."
-          example: '25'
+          example: "25"
           nullable: true
         role:
           type: string
@@ -2370,7 +2350,7 @@ components:
         phone:
           type: string
           description: The contact's phone.
-          example: '+1123456789'
+          example: "+1123456789"
           nullable: true
         name:
           type: string
@@ -2382,7 +2362,7 @@ components:
           type: string
           minLength: 1
           description: An image URL containing the avatar of a contact.
-          example: 'https://example.org/128Wash.jpg'
+          example: "https://example.org/128Wash.jpg"
           format: uri
           nullable: true
         owner_id:
@@ -2391,7 +2371,7 @@ components:
           example: 127
           nullable: true
         social_profiles:
-          $ref: '#/components/schemas/SocialProfileList'
+          $ref: "#/components/schemas/SocialProfileList"
         has_hard_bounced:
           type: boolean
           description: Whether the contact has had an email sent to them hard bounce.
@@ -2445,7 +2425,7 @@ components:
           nullable: true
         language_override:
           type: string
-          description: 'A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change.'
+          description: "A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change."
           minLength: 1
           example: es
           nullable: true
@@ -2474,7 +2454,7 @@ components:
           example: OS X 10.14.6
           nullable: true
         location:
-          $ref: '#/components/schemas/Location'
+          $ref: "#/components/schemas/Location"
         android_app_name:
           type: string
           description: "\t\nThe name of the Android app which the contact is using."
@@ -2539,11 +2519,11 @@ components:
           type: object
           description: The custom attributes which are set for the contact.
         tags:
-          $ref: '#/components/schemas/AddressableList'
+          $ref: "#/components/schemas/AddressableList"
         notes:
-          $ref: '#/components/schemas/AddressableList'
+          $ref: "#/components/schemas/AddressableList"
         companies:
-          $ref: '#/components/schemas/AddressableList'
+          $ref: "#/components/schemas/AddressableList"
       required:
         - type
         - id
@@ -2565,13 +2545,14 @@ components:
           minItems: 1
           description: An array containing Contact Objects.
           items:
-            $ref: '#/components/schemas/Contact'
+            $ref: "#/components/schemas/Contact"
+          maxItems: 1000
         total_count:
           type: integer
           description: The total number of contacts.
           example: 436
         pages:
-          $ref: '#/components/schemas/PagesCursor'
+          $ref: "#/components/schemas/PagesCursor"
       required:
         - type
         - data
@@ -2584,9 +2565,9 @@ components:
           type: object
           description: A single filter query object.
         pagination:
-          $ref: '#/components/schemas/SearchPagination'
+          $ref: "#/components/schemas/SearchPagination"
         sort:
-          $ref: '#/components/schemas/SearchSorting'
+          $ref: "#/components/schemas/SearchSorting"
       required:
         - query
     SingleFilterString:
@@ -2605,7 +2586,7 @@ components:
           type: string
           description: The operator that you want to compare by.
           minLength: 1
-          example: '~'
+          example: "~"
           pattern: ^(=|!=|IN|NIN|>|>=|<|<=|~|!~|\^|\$)$
         value:
           type: string
@@ -2630,7 +2611,7 @@ components:
           type: string
           description: The operator that you want to compare by.
           minLength: 1
-          example: '~'
+          example: "~"
           pattern: ^(=|!=|IN|NIN|>|>=|<|<=|~|!~|\^|\$)$
         value:
           type: integer
@@ -2645,11 +2626,11 @@ components:
       title: Multi-Filter Query
       properties:
         query:
-          $ref: '#/components/schemas/MultiFilter'
+          $ref: "#/components/schemas/MultiFilter"
         pagination:
-          $ref: '#/components/schemas/SearchPagination'
+          $ref: "#/components/schemas/SearchPagination"
         sort:
-          $ref: '#/components/schemas/SearchSorting'
+          $ref: "#/components/schemas/SearchSorting"
       required:
         - query
     NestedFilterQuery:
@@ -2658,11 +2639,11 @@ components:
       title: Nested Filter Query
       properties:
         query:
-          $ref: '#/components/schemas/NestedFilter'
+          $ref: "#/components/schemas/NestedFilter"
         pagination:
-          $ref: '#/components/schemas/SearchPagination'
+          $ref: "#/components/schemas/SearchPagination"
         sort:
-          $ref: '#/components/schemas/SearchSorting'
+          $ref: "#/components/schemas/SearchSorting"
       required:
         - query
     MultiFilter:
@@ -2684,6 +2665,7 @@ components:
           items:
             type: object
             description: An array of single filter query objects.
+          maxItems: 1000
       required:
         - operator
         - value
@@ -2704,7 +2686,8 @@ components:
           uniqueItems: true
           minItems: 1
           items:
-            $ref: '#/components/schemas/MultiFilter'
+            $ref: "#/components/schemas/MultiFilter"
+          maxItems: 1000
       required:
         - operator
         - value
@@ -2716,13 +2699,13 @@ components:
         code:
           type: string
           minLength: 1
-          description: 'A string indicating the kind of error, used to further qualify the HTTP response code'
+          description: "A string indicating the kind of error, used to further qualify the HTTP response code"
           example: not_found
         message:
           type: string
           minLength: 1
           description: Optional. Human readable description of the error
-          example: 'No such email[pi@example.org]'
+          example: "No such email[pi@example.org]"
         field:
           type: string
           minLength: 1
@@ -2752,7 +2735,8 @@ components:
           minItems: 1
           description: An array of one or more error objects
           items:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
+          maxItems: 1000
       required:
         - type
         - request_id
@@ -2774,7 +2758,7 @@ components:
           type: string
           minLength: 1
           description: A unique identifier for the contact which is given to Intercom. Required if role is user and email is blank
-          example: '25'
+          example: "25"
         email:
           type: string
           minLength: 1
@@ -2784,7 +2768,7 @@ components:
           type: string
           minLength: 1
           description: The contacts phone.
-          example: '+1123456789'
+          example: "+1123456789"
         name:
           type: string
           minLength: 1
@@ -2795,7 +2779,7 @@ components:
           minLength: 1
           description: An image URL containing the avatar of a contact.
           format: uri
-          example: 'https://example.org/128Wash.jpg'
+          example: "https://example.org/128Wash.jpg"
         last_seen_at:
           type: integer
           description: The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). Unix Timestamp.
@@ -2841,7 +2825,7 @@ components:
           minLength: 1
           description: Whether the contact has been deleted - true
           nullable: true
-          example: 'true'
+          example: "true"
     ArchiveContactResponse:
       description: An object with details on the archived contact.
       type: object
@@ -2862,9 +2846,9 @@ components:
         deleted:
           type: string
           minLength: 1
-          description: 'Whether the contact has been archived - true if archived, false if unarchived.'
+          description: "Whether the contact has been archived - true if archived, false if unarchived."
           nullable: true
-          example: 'true'
+          example: "true"
     MergeContactsRequest:
       description: Information needed to merge two contacts.
       type: object
@@ -2907,12 +2891,12 @@ components:
           description: The name of the company.
           example: Blue Sun
         plan:
-          $ref: '#/components/schemas/Plan'
+          $ref: "#/components/schemas/Plan"
         company_id:
           type: string
           minLength: 1
           description: The company id you have defined for the company.
-          example: '6'
+          example: "6"
           nullable: true
         remote_created_at:
           type: integer
@@ -2938,7 +2922,7 @@ components:
           type: string
           minLength: 1
           description: The URL for the company website.
-          example: 'http://www.example.com'
+          example: "http://www.example.com"
           nullable: true
         industry:
           type: string
@@ -2966,9 +2950,9 @@ components:
           type: object
           description: The custom attributes you have set on the company.
         tags:
-          $ref: '#/components/schemas/CompanyTagList'
+          $ref: "#/components/schemas/CompanyTagList"
         segments:
-          $ref: '#/components/schemas/CompanySegmentList'
+          $ref: "#/components/schemas/CompanySegmentList"
       required:
         - type
         - id
@@ -2982,7 +2966,7 @@ components:
           type: string
           minLength: 1
           description: The id of the tag.
-          example: '17513'
+          example: "17513"
         name:
           type: string
           minLength: 1
@@ -3004,12 +2988,12 @@ components:
       x-examples:
         Example:
           type: note
-          id: '16'
+          id: "16"
           created_at: 1389913941
           body: <p>Text for my note</p>
           author:
             type: admin
-            id: '21'
+            id: "21"
             name: Jayne Cobb
             email: jayne@serenity.io
             job_title: The job title of the admin
@@ -3018,7 +3002,7 @@ components:
             has_inbox_seat: true
             team_ids:
               - 814865
-            avatar: 'http://example.org/128Jayne.jpg'
+            avatar: "http://example.org/128Jayne.jpg"
           user:
             type: user
             id: 5310d8e8598c9a0b24000005
@@ -3032,7 +3016,7 @@ components:
           type: string
           minLength: 1
           description: The id representing the note.
-          example: '16'
+          example: "16"
         created_at:
           type: integer
           description: The time the note was created.
@@ -3043,15 +3027,75 @@ components:
           description: The body text of the note.
           example: <p>Text for my note</p>
         author:
-          $ref: '#/components/schemas/Admin'
+          $ref: "#/components/schemas/Admin"
         user:
-          $ref: '#/components/schemas/NoteUser'
+          $ref: "#/components/schemas/NoteUser"
       required:
         - type
         - id
         - created_at
         - body
         - user
+    Message:
+      description: Message are how you reach out to contacts in Intercom. They are created when an admin sends an outbound message to a contact.
+      type: object
+      title: Message
+      x-examples:
+        Example:
+          type: message
+          id: 489373052
+          created_at: 1539897198
+          subject: This is the subject - if it's an email
+          body: <p>Hello</p>
+          message_type: email
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'message'.
+          example: message
+          enum:
+            - message
+        id:
+          type: string
+          minLength: 1
+          description: The id representing the message.
+          example: 489373052
+        created_at:
+          type: integer
+          description: The time the conversation was created.
+          example: 1539897198
+        subject:
+          type: string
+          minLength: 1
+          description: "The subject of the message. Only present if message_type is 'email'"
+          example: This is the subject - if it's an email
+        body:
+          type: string
+          minLength: 1
+          description: The message body, which may contain HTML.
+          example: <p>Hello</p>
+        message_type:
+          type: string
+          minLength: 1
+          description: "The type of message that was sent. Can be email, inapp, facebook or twitter."
+          enum:
+            - email
+            - inapp
+            - facebook
+            - twitter
+          example: email
+        conversation_id:
+          type: string
+          minLength: 1
+          description: "The associated conversation_id. Only returned when creating a conversation."
+      required:
+        - type
+        - id
+        - created_at
+        - subject
+        - body
+        - message_type
     Admin:
       description: A teammate account that has access to a workspace.
       type: object
@@ -3059,7 +3103,7 @@ components:
       x-examples:
         Example:
           type: admin
-          id: '21'
+          id: "21"
           name: Jayne Cobb
           email: jayne@serenity.io
           job_title: The job title of the admin
@@ -3068,7 +3112,7 @@ components:
           has_inbox_seat: true
           team_ids:
             - 814865
-          avatar: 'http://example.org/128Jayne.jpg'
+          avatar: "http://example.org/128Jayne.jpg"
       properties:
         type:
           type: string
@@ -3079,7 +3123,7 @@ components:
           type: string
           minLength: 1
           description: The id of the admin user that created the note.
-          example: '21'
+          example: "21"
         name:
           type: string
           minLength: 1
@@ -3110,11 +3154,12 @@ components:
             type: integer
             minimum: 1
             example: 814865
+          maxItems: 1000
         avatar:
           type: string
           description: Image for the associated team or teammate
           format: uri
-          example: 'http://example.org/128Jayne.jpg'
+          example: "http://example.org/128Jayne.jpg"
           minLength: 1
       required:
         - type
@@ -3173,7 +3218,7 @@ components:
           example: 1394622004
         person_type:
           type: string
-          description: 'Type of the record: user or lead.'
+          description: "Type of the record: user or lead."
           example: user
           minLength: 1
         count:
@@ -3200,7 +3245,7 @@ components:
           minLength: 1
           description: An url to the next page in the result set. A response that does not contain a `next` link does not have further data to fetch.
           format: uri
-          example: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2'
+          example: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/companies?per_page=1&page=2"
         page:
           type: integer
           description: The current page.
@@ -3229,13 +3274,14 @@ components:
           example: company.list
           description: The type of object - company.list
         pages:
-          $ref: '#/components/schemas/PagesSimple'
+          $ref: "#/components/schemas/PagesSimple"
         companies:
           type: array
           uniqueItems: true
           minItems: 1
           items:
-            $ref: '#/components/schemas/Company'
+            $ref: "#/components/schemas/Company"
+          maxItems: 1000
         total_count:
           type: integer
           example: 1
@@ -3245,7 +3291,7 @@ components:
           type: string
           example: 25b649f7-4d33-4ef6-88f5-60e5b8244309
           minLength: 1
-          description: 'When using the Scroll API for companies, for subsequent requests, you will need to use the scroll parameter from the response. You need to send the value of this property as a query parameter in your next request.'
+          description: "When using the Scroll API for companies, for subsequent requests, you will need to use the scroll parameter from the response. You need to send the value of this property as a query parameter in your next request."
       required:
         - type
         - companies
@@ -3262,7 +3308,7 @@ components:
           type: string
           minLength: 1
           description: The Id of the plan
-          example: '33574'
+          example: "33574"
         name:
           type: string
           minLength: 1
@@ -3287,7 +3333,8 @@ components:
           type: array
           description: List of tags associated to this company.
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
+          maxItems: 1000
       required:
         - type
         - tags
@@ -3304,7 +3351,8 @@ components:
           type: array
           description: List of segments associated to this company.
           items:
-            $ref: '#/components/schemas/Segment'
+            $ref: "#/components/schemas/Segment"
+          maxItems: 1000
       required:
         - type
         - segments
@@ -3323,7 +3371,8 @@ components:
           uniqueItems: true
           description: List of tags.
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
+          maxItems: 1000
       required:
         - type
         - data
@@ -3341,7 +3390,8 @@ components:
           uniqueItems: true
           description: List of segments.
           items:
-            $ref: '#/components/schemas/Segment'
+            $ref: "#/components/schemas/Segment"
+          maxItems: 1000
       required:
         - type
         - data
@@ -3361,9 +3411,10 @@ components:
           uniqueItems: true
           description: List of notes
           items:
-            $ref: '#/components/schemas/Note'
+            $ref: "#/components/schemas/Note"
+          maxItems: 1000
         pages:
-          $ref: '#/components/schemas/PagesSimple'
+          $ref: "#/components/schemas/PagesSimple"
         total_count:
           type: integer
           example: 3
@@ -3379,12 +3430,12 @@ components:
           type: list
           data:
             - type: note
-              id: '16'
+              id: "16"
               created_at: 1389913941
               body: <p>Text for my note</p>
               author:
                 type: admin
-                id: '21'
+                id: "21"
                 name: Jayne Cobb
                 email: jayne@serenity.io
               user:
@@ -3392,7 +3443,7 @@ components:
                 id: 5310d8e8598c9a0b24000005
           pages:
             type: pages
-            next: 'https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/notes?per_page=1&page=2'
+            next: "https://api.intercom.io/contacts/5d010558220cf7d48317dbb9/notes?per_page=1&page=2"
             page: 1
             per_page: 50
             total_pages: 26
@@ -3455,7 +3506,7 @@ components:
           type: string
           minLength: 1
           description: The company id you have defined for the company. Can't be updated.
-          example: '6'
+          example: "6"
         remote_created_at:
           type: integer
           example: 1394531169
@@ -3467,7 +3518,7 @@ components:
         website:
           type: string
           minLength: 1
-          example: 'http://www.example.com'
+          example: "http://www.example.com"
           description: The URL for this company's website. Please note that the value specified here is not validated. Accepts any string.
         industry:
           type: string
@@ -3479,7 +3530,7 @@ components:
           description: A hash of key/value pairs containing any other data about the company you want Intercom to store.
         monthly_spend:
           type: number
-          description: 'How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647..'
+          description: "How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647.."
           example: 495
           minimum: 0
       required:
@@ -3534,14 +3585,55 @@ components:
           type: string
           minLength: 1
           description: The unique identifier for the admin which is given by Intercom.
-          example: '12345'
+          example: "12345"
       required:
         - body
         - admin_id
       x-examples:
         Example:
           body: Shiny
-          admin_id: '12345'
+          admin_id: "12345"
+    CreateConversationRequest:
+      description: |
+        Model used to create a conversation
+      type: object
+      title: Create Conversation Request
+      properties:
+        body:
+          type: string
+          minLength: 1
+          description: The content of the message.
+          example: Hey
+        from:
+          description: Represents a user or lead identifier.
+          type: object
+          title: Form Object
+          properties:
+            type:
+              type: string
+              minLength: 1
+              description: The role of the contact. Accepted values are user or lead.
+              enum:
+                - user
+                - lead
+              example: user
+            id:
+              type: string
+              minLength: 1
+              description: The identifier for the contact which is given by Intercom.
+              example: 536e564f316c83104c000020
+          required:
+            - type
+            - id
+      required:
+        - body
+        - from
+      x-examples:
+        Example:
+          body: Hey
+          from:
+            type: user
+            id: 536e564f316c83104c000020
   securitySchemes:
     Bearer:
       type: http
@@ -3552,7 +3644,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: "#/components/schemas/Errors"
           examples:
             Validation Error:
               value:
@@ -3567,19 +3659,19 @@ components:
         type: contact
         id: 5ba682d23d7cf92bef87bfd4
         workspace_id: ecahpwf5
-        external_id: '25'
+        external_id: "25"
         role: user
         email: wash@serenity.io
-        phone: '+1123456789'
+        phone: "+1123456789"
         name: Hoban Washburn
-        avatar: 'https://example.org/128Wash.jpg'
+        avatar: "https://example.org/128Wash.jpg"
         owner_id: 127
         social_profiles:
           type: list
           data:
             - type: social_profile
               name: Twitter
-              url: 'http://twitter.com/th1sland'
+              url: "http://twitter.com/th1sland"
         has_hard_bounced: false
         marked_email_as_spam: false
         unsubscribed_from_emails: false
@@ -3621,13 +3713,13 @@ components:
           type: list
           data:
             - type: tag
-              id: '2'
+              id: "2"
               url: /tags/2
             - type: tag
-              id: '4'
+              id: "4"
               url: /tags/4
             - type: tag
-              id: '5'
+              id: "5"
               url: /tags/5
           url: /contacts/5ba682d23d7cf92bef87bfd4/tags
           total_count: 3
@@ -3636,7 +3728,7 @@ components:
           type: list
           data:
             - type: note
-              id: '20114858'
+              id: "20114858"
               url: /notes/20114858
           url: /contacts/5ba682d23d7cf92bef87bfd4/notes
           total_count: 1
@@ -3663,19 +3755,19 @@ components:
           - type: contact
             id: 5ba682d23d7cf92bef87bfd4
             workspace_id: ecahpwf5
-            external_id: '25'
+            external_id: "25"
             role: user
             email: wash@serenity.io
-            phone: '+1123456789'
+            phone: "+1123456789"
             name: Hoban Washburn
-            avatar: 'https://example.org/128Wash.jpg'
+            avatar: "https://example.org/128Wash.jpg"
             owner_id: 127
             social_profiles:
               type: list
               data:
                 - type: social_profile
                   name: Twitter
-                  url: 'http://twitter.com/th1sland'
+                  url: "http://twitter.com/th1sland"
             unsubscribed_from_emails: false
             created_at: 1571672154
             updated_at: 1571672158
@@ -3702,20 +3794,20 @@ components:
               type: list
               data:
                 - type: tag
-                  id: '2'
+                  id: "2"
                   url: /tags/2
                 - type: tag
-                  id: '4'
+                  id: "4"
                   url: /tags/4
                 - type: tag
-                  id: '5'
+                  id: "5"
                   url: /tags/5
               url: /contacts/5ba682d23d7cf92bef87bfd4/tags
             notes:
               type: list
               data:
                 - type: note
-                  id: '20114858'
+                  id: "20114858"
                   url: /notes/20114858
               url: /contacts/5ba682d23d7cf92bef87bfd4/notes
             companies:
@@ -3743,11 +3835,11 @@ components:
     UpdateContactRequest:
       value:
         role: user
-        external_id: '25'
+        external_id: "25"
         email: wash@serenity.io
-        phone: '+1123456789'
+        phone: "+1123456789"
         name: Hoban Washburn
-        avatar: 'https://example.org/128Wash.jpg'
+        avatar: "https://example.org/128Wash.jpg"
         last_seen_at: 1571069751
         signed_up_at: 1571069751
         owner_id: 127
