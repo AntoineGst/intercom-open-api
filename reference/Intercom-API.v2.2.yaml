@@ -9,12 +9,100 @@ info:
 servers:
   - url: "https://api.intercom.io"
 paths:
+  /messages:
+    post:
+      operationId: post-messages
+      summary: Create a message
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              examples:
+                Message:
+                  value:
+                    type: admin_message
+                    id: "2001"
+                    created_at: 1401916877
+                    message_type: email
+                    subject: Hey
+                    body: Ponies, cute small horses or something more sinister?
+                    template: plain
+                    owner:
+                      email: wash@serenity.io
+                      id: "394051"
+                      name: Wash
+                      type: admin
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+      tags:
+        - Messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMessageRequest"
+            examples:
+              Create Message:
+                value:
+                  message_type: email
+                  subject: Hey
+                  body: Ponies, cute small horses or something more sinister?
+                  template: plain
+                  from:
+                    type: admin
+                    id: 394051
+                  to:
+                    type: user
+                    id: 536e564f316c83104c000020
   /conversations:
     post:
       operationId: post-conversations
-      summary: create a conversation.
+      summary: Create a conversation
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -29,9 +117,48 @@ paths:
                     body: Hey is the new thing in stock?
                     message_type: inapp
                     conversation_id: 36000324324
-
-        "400":
-          $ref: "#/components/responses/BadRequest"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       tags:
         - Conversations
       requestBody:
@@ -3671,6 +3798,97 @@ components:
           from:
             type: user
             id: 536e564f316c83104c000020
+    CreateMessageRequest:
+      description: |
+        Model used to create a message
+      type: object
+      title: Create Message Request
+      additionalProperties: false
+      properties:
+        message_type:
+          type: string
+          minLength: 1
+          description: The kind of message being created
+          enum:
+            - inapp
+            - email
+          example: inapp
+        subject:
+          type: string
+          minLength: 1
+          description: The title of the email.
+          example: Hey
+        body:
+          type: string
+          minLength: 1
+          description: The content of the message.
+          example: Ponies, cute small horses or something more sinister?
+        template:
+          type: string
+          minLength: 1
+          description: The style of the outgoing message.
+          enum:
+            - plain
+            - personal
+          example: plain
+        from:
+          description: Represents an admin identifier.
+          type: object
+          title: Form Object
+          properties:
+            type:
+              type: string
+              minLength: 1
+              description: The type of the contact.
+              enum:
+                - admin
+              example: admin
+            id:
+              type: string
+              minLength: 1
+              description: The identifier for the contact which is given by Intercom.
+              example: 394051
+          required:
+            - type
+            - id
+        to:
+          description: Represents a user or lead identifier.
+          type: object
+          title: Form Object
+          properties:
+            type:
+              type: string
+              minLength: 1
+              description: The role of the contact. Accepted values are user or lead.
+              enum:
+                - user
+                - lead
+              example: user
+            id:
+              type: string
+              minLength: 1
+              description: The identifier for the contact which is given by Intercom.
+              example: 536e564f316c83104c000020
+          required:
+            - type
+            - id
+      required:
+        - body
+        - from
+        - to
+        - message_type
+      x-examples:
+        Example:
+          message_type: email
+          subject: Hey
+          body: Ponies, cute small horses or something more sinister?
+          template: plain
+          from:
+            type: admin
+            id: "394051"
+          to:
+            type: user
+            id: 536e564f316c83104c000020
   securitySchemes:
     Bearer:
       type: http
@@ -3890,3 +4108,4 @@ tags:
   - name: Notes
   - name: Companies
   - name: Conversations
+  - name: Messages
