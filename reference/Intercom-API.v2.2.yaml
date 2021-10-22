@@ -340,7 +340,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Errors"
-      operationId: get-contacts-id-companies
+      operationId: get-conversations-id
       description: Fetch a list of companies that are associated to a contact.
   /contacts:
     get:
