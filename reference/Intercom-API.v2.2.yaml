@@ -194,102 +194,7 @@ paths:
                 $ref: "#/components/schemas/Conversation"
               examples:
                 Conversation:
-                  value:
-                    type: conversation
-                    id: "1911149811"
-                    created_at: 1539897198
-                    updated_at: 1540393270
-                    source:
-                      attachments: []
-                      author:
-                        id: 5bc8f7421ae2d96695c18a
-                        type: lead
-                      body: "<p>Hi</p>"
-                      delivered_as: customer_initiated
-                      id: "269650473"
-                      subject: ""
-                      type: conversation
-                      url: https://intercom-survey-app.glitch.me/
-                      redacted: false
-                    contacts:
-                      - id: 5bc8f7ae2d96695c18a
-                        type: lead
-                    teammates:
-                      - id: "814860"
-                        type: admin
-                        name: Mark Strong
-                        email: mk@acmeinc.org
-                    admin_assignee_id: "814860"
-                    team_assignee_id:
-                    open: true
-                    state: open
-                    read: true
-                    waiting_since: 64654125776
-                    snoozed_until:
-                    tags:
-                      tags: []
-                      type: tag.list
-                    first_contact_reply:
-                      created_at: 1539897198
-                      type: conversation
-                      url: https://intercom-survey-app.glitch.me/
-                    priority: not_priority
-                    sla_applied:
-                      sla_name: VIP customer <5m
-                      sla_status: missed
-                    conversation_rating:
-                      created_at:
-                      contact:
-                        id:
-                        type:
-                      rating:
-                      remark:
-                      teammate:
-                        id:
-                        type:
-                        name:
-                        email:
-                    statistics:
-                      time_to_assignment: 2310
-                      time_to_admin_reply: 2408
-                      time_to_first_close: 4915
-                      time_to_last_close: 5125
-                      median_time_to_reply: 321
-                      first_contacat_reply_at: 1539897200
-                      first_assignment_at: 1539897200
-                      first_admin_reply_at: 1539897200
-                      first_close_at: 1539897200
-                      last_assignment_at: 1539897200
-                      last_assignment_admin_reply_at: 1539897200
-                      last_contact_reply_at: 1539897200
-                      last_admin_reply_at: 1539897200
-                      last_close_at: 1539897200
-                      last_closed_by:
-                        type: admin
-                        id: "325432652"
-                        name: Tom Smith
-                        email: tom@example.com
-                      count_reopens: 3
-                      count_assignments: 2
-                      count_conversation_parts: 67
-                    conversation_parts:
-                      conversation_parts:
-                        - assigned_to:
-                          attachments: []
-                          author:
-                            id: "815309"
-                            type: bot
-                          body: "<p>Test_App typically replies in a few hours.</p>"
-                          created_at: 1539897200
-                          external_id:
-                          id: "2202737122"
-                          notified_at: 1539897200
-                          part_type: comment
-                          type: conversation_part
-                          updated_at: 1539897200
-                          redacted: false
-                      total_count: 67
-                      type: conversation_part.list
+                  $ref: "#/components/examples/Conversation"
         404:
           description: Not Found
           content:
@@ -342,6 +247,83 @@ paths:
                 $ref: "#/components/schemas/Errors"
       operationId: get-conversations-id
       description: Fetch a list of companies that are associated to a contact.
+  /conversations/{id}/reply:
+    post:
+      operationId: post-conversations-id-reply
+      summary: Reply to a conversation
+      parameters:
+        - schema:
+            type: string
+          name: id
+          in: path
+          required: true
+          description: The unique identifier for the conversation which is given by Intercom.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+              examples:
+                Conversation:
+                  $ref: "#/components/examples/Conversation"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+      tags:
+        - Conversations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateConversationReply"
+            examples:
+              Create Conversation:
+                value:
+                  from:
+                    type: user
+                    id: 536e564f316c83104c000020
+                  body: Hey
   /contacts:
     get:
       summary: List all contacts
@@ -4958,6 +4940,64 @@ components:
           from:
             type: user
             id: 536e564f316c83104c000020
+    CreateConversationReply:
+      description: |
+        Model used to create a conversation reply
+      type: object
+      title: Create Conversation Reply
+      additionalProperties: false
+      properties:
+        message_type:
+          type: string
+          minLength: 1
+          description: always comment
+          enum:
+            - comment
+          example: comment
+        type:
+          type: string
+          minLength: 1
+          description: always user
+          enum:
+            - user
+          example: user
+        body:
+          type: string
+          minLength: 1
+          description: The content of the message.
+          example: Thanks again :)
+        intercom_user_id:
+          type: string
+          minLength: 1
+          description: The identifier for the contact as given by Intercom.
+          example: 536e564f316c83104c000020
+        attachment_urls:
+          description: A list of image URLs that will be added as attachments.
+          type: array
+          title: Attachment Urls
+          items:
+            type: string
+          maxItems: 5
+        user_id:
+          type: string
+          minLength: 1
+          description: The external_id you have defined for the contact.
+          example: 536e564f316c83104c000020
+        email:
+          type: string
+          minLength: 1
+          description: The email you have defined for the user.
+          example: john@doe.com
+      required:
+        - message_type
+        - type
+        - body
+      x-examples:
+        Example:
+          message_type: comment
+          type: user
+          intercom_user_id: 536e564f316c83104c000020
+          body: Thanks again :)
     CreateMessageRequest:
       description: |
         Model used to create a message
@@ -5069,6 +5109,103 @@ components:
                   - code: parameter_invalid
                     message: Per Page isn't an integer using a starting_after value from a paginated response
   examples:
+    Conversation:
+      value:
+        type: conversation
+        id: "1911149811"
+        created_at: 1539897198
+        updated_at: 1540393270
+        source:
+          attachments: []
+          author:
+            id: 5bc8f7421ae2d96695c18a
+            type: lead
+          body: "<p>Hi</p>"
+          delivered_as: customer_initiated
+          id: "269650473"
+          subject: ""
+          type: conversation
+          url: https://intercom-survey-app.glitch.me/
+          redacted: false
+        contacts:
+          - id: 5bc8f7ae2d96695c18a
+            type: lead
+        teammates:
+          - id: "814860"
+            type: admin
+            name: Mark Strong
+            email: mk@acmeinc.org
+        admin_assignee_id: "814860"
+        team_assignee_id:
+        open: true
+        state: open
+        read: true
+        waiting_since: 64654125776
+        snoozed_until:
+        tags:
+          tags: []
+          type: tag.list
+        first_contact_reply:
+          created_at: 1539897198
+          type: conversation
+          url: https://intercom-survey-app.glitch.me/
+        priority: not_priority
+        sla_applied:
+          sla_name: VIP customer <5m
+          sla_status: missed
+        conversation_rating:
+          created_at:
+          contact:
+            id:
+            type:
+          rating:
+          remark:
+          teammate:
+            id:
+            type:
+            name:
+            email:
+        statistics:
+          time_to_assignment: 2310
+          time_to_admin_reply: 2408
+          time_to_first_close: 4915
+          time_to_last_close: 5125
+          median_time_to_reply: 321
+          first_contacat_reply_at: 1539897200
+          first_assignment_at: 1539897200
+          first_admin_reply_at: 1539897200
+          first_close_at: 1539897200
+          last_assignment_at: 1539897200
+          last_assignment_admin_reply_at: 1539897200
+          last_contact_reply_at: 1539897200
+          last_admin_reply_at: 1539897200
+          last_close_at: 1539897200
+          last_closed_by:
+            type: admin
+            id: "325432652"
+            name: Tom Smith
+            email: tom@example.com
+          count_reopens: 3
+          count_assignments: 2
+          count_conversation_parts: 67
+        conversation_parts:
+          conversation_parts:
+            - assigned_to:
+              attachments: []
+              author:
+                id: "815309"
+                type: bot
+              body: "<p>Test_App typically replies in a few hours.</p>"
+              created_at: 1539897200
+              external_id:
+              id: "2202737122"
+              notified_at: 1539897200
+              part_type: comment
+              type: conversation_part
+              updated_at: 1539897200
+              redacted: false
+          total_count: 67
+          type: conversation_part.list
     Contact:
       value:
         type: contact
