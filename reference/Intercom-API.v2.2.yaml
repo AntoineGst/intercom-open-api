@@ -173,11 +173,180 @@ paths:
                     type: user
                     id: 536e564f316c83104c000020
                   body: Hey
+  /conversations/{id}:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The unique identifier for the conversation which is given by Intercom.
+    get:
+      summary: fetch the details of a single conversation
+      tags:
+        - Conversations
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+              examples:
+                Conversation:
+                  value:
+                    type: conversation
+                    id: "1911149811"
+                    created_at: 1539897198
+                    updated_at: 1540393270
+                    source:
+                      attachments: []
+                      author:
+                        id: 5bc8f7421ae2d96695c18a
+                        type: lead
+                      body: "<p>Hi</p>"
+                      delivered_as: customer_initiated
+                      id: "269650473"
+                      subject: ""
+                      type: conversation
+                      url: https://intercom-survey-app.glitch.me/
+                      redacted: false
+                    contacts:
+                      - id: 5bc8f7ae2d96695c18a
+                        type: lead
+                    teammates:
+                      - id: "814860"
+                        type: admin
+                        name: Mark Strong
+                        email: mk@acmeinc.org
+                    admin_assignee_id: "814860"
+                    team_assignee_id:
+                    open: true
+                    state: open
+                    read: true
+                    waiting_since: 64654125776
+                    snoozed_until:
+                    tags:
+                      tags: []
+                      type: tag.list
+                    first_contact_reply:
+                      created_at: 1539897198
+                      type: conversation
+                      url: https://intercom-survey-app.glitch.me/
+                    priority: not_priority
+                    sla_applied:
+                      sla_name: VIP customer <5m
+                      sla_status: missed
+                    conversation_rating:
+                      created_at:
+                      contact:
+                        id:
+                        type:
+                      rating:
+                      remark:
+                      teammate:
+                        id:
+                        type:
+                        name:
+                        email:
+                    statistics:
+                      time_to_assignment: 2310
+                      time_to_admin_reply: 2408
+                      time_to_first_close: 4915
+                      time_to_last_close: 5125
+                      median_time_to_reply: 321
+                      first_contacat_reply_at: 1539897200
+                      first_assignment_at: 1539897200
+                      first_admin_reply_at: 1539897200
+                      first_close_at: 1539897200
+                      last_assignment_at: 1539897200
+                      last_assignment_admin_reply_at: 1539897200
+                      last_contact_reply_at: 1539897200
+                      last_admin_reply_at: 1539897200
+                      last_close_at: 1539897200
+                      last_closed_by:
+                        type: admin
+                        id: "325432652"
+                        name: Tom Smith
+                        email: tom@example.com
+                      count_reopens: 3
+                      count_assignments: 2
+                      count_conversation_parts: 67
+                    conversation_parts:
+                      conversation_parts:
+                        - assigned_to:
+                          attachments: []
+                          author:
+                            id: "815309"
+                            type: bot
+                          body: "<p>Test_App typically replies in a few hours.</p>"
+                          created_at: 1539897200
+                          external_id:
+                          id: "2202737122"
+                          notified_at: 1539897200
+                          part_type: comment
+                          type: conversation_part
+                          updated_at: 1539897200
+                          redacted: false
+                      total_count: 67
+                      type: conversation_part.list
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+              examples:
+                Contact not found:
+                  value:
+                    type: error.list
+                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
+                    errors:
+                      - code: not_found
+                        message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+      operationId: get-contacts-id-companies
+      description: Fetch a list of companies that are associated to a contact.
   /contacts:
     get:
       summary: List all contacts
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -268,8 +437,44 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        "400":
+        400:
           $ref: "#/components/responses/BadRequest"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts
       description: Fetch a list of all contacts.
       parameters:
@@ -295,7 +500,7 @@ paths:
       summary: Create a contact
       operationId: post-contacts
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -396,7 +601,7 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -417,6 +622,42 @@ paths:
                     errors:
                       - code: parameter_invalid
                         message: The owner specified is not a member of the workspace
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Create a new contact (ie. user or lead).
       tags:
         - Contacts
@@ -447,7 +688,7 @@ paths:
       summary: Search for contacts
       operationId: post-contacts-search
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -538,7 +779,7 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -601,6 +842,42 @@ paths:
                     errors:
                       - code: invalid_value
                         message: "Number of elements in composite query is greater than 15, please try again with a smaller list"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: |-
         You can search for multiple contacts by the value of their attributes in order to fetch exactly who you want.
 
@@ -672,7 +949,7 @@ paths:
       summary: Update a contact
       operationId: put-contacts-id
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -773,7 +1050,7 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -808,6 +1085,42 @@ paths:
                     errors:
                       - code: parameter_invalid
                         message: The owner specified is not a member of the workspace
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Update an existing contact (ie. user or lead).
       requestBody:
         content:
@@ -837,7 +1150,7 @@ paths:
       summary: Retrieve a contact
       operationId: get-contacts-id
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -938,7 +1251,7 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -952,6 +1265,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Fetch the details of a single contact.
       tags:
         - Contacts
@@ -959,13 +1308,13 @@ paths:
       summary: Delete a contact
       operationId: delete-contacts-id
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteContactResponse"
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -979,6 +1328,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Delete a single contact.
       tags:
         - Contacts
@@ -993,13 +1378,13 @@ paths:
       summary: Archive a contact
       operationId: post-contacts-id-archive
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ArchiveContactResponse"
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1013,6 +1398,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Archive a single contact.
       tags:
         - Contacts
@@ -1027,13 +1448,13 @@ paths:
       summary: Unarchive a contact
       operationId: post-contacts-id-unarchive
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ArchiveContactResponse"
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1047,6 +1468,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Unarchive a single contact.
       tags:
         - Contacts
@@ -1055,7 +1512,7 @@ paths:
       summary: Merge two contacts
       operationId: post-contacts-merge
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1156,7 +1613,7 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -1170,7 +1627,7 @@ paths:
                     errors:
                       - code: invalid_merge
                         message: Merging can only be performed on a lead into a user
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1184,6 +1641,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Merge a contact with a role of lead into a contact with a role of user.
       requestBody:
         content:
@@ -1210,7 +1703,7 @@ paths:
       tags:
         - Contacts
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1252,7 +1745,7 @@ paths:
                           segments: []
                         custom_attributes: {}
                     total_count: 1
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1266,13 +1759,49 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts-id-companies
       description: Fetch a list of companies that are associated to a contact.
     post:
       summary: Attach a contact
       operationId: post-contacts-id-companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1317,7 +1846,7 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1338,6 +1867,42 @@ paths:
                     errors:
                       - code: company_not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       tags:
         - Companies
       description: Attach a company to a single contact.
@@ -1363,7 +1928,7 @@ paths:
       tags:
         - Contacts
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1377,7 +1942,7 @@ paths:
                       - id: "17513"
                         name: independent
                         type: tag
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1391,6 +1956,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts-id-tags
       description: Fetch a list of tags that are associated to a contact.
   "/contacts/{id}/segments":
@@ -1406,7 +2007,7 @@ paths:
       tags:
         - Contacts
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1424,7 +2025,7 @@ paths:
                         updated_at: 1394622004
                         person_type: user
                         count: 148
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1438,6 +2039,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts-id-segments
       description: Fetch a list of segments that are associated to a contact.
   "/contacts/{id}/notes":
@@ -1453,7 +2090,7 @@ paths:
       tags:
         - Notes
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1483,7 +2120,7 @@ paths:
                       per_page: 50
                       total_pages: 26
                     total_count: 3
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1508,13 +2145,49 @@ paths:
                     errors:
                       - code: not_found
                         message: Contact Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts-id-notes
       description: Fetch a list of notes that are associated to a contact.
     post:
       summary: Create a note
       operationId: post-contacts-id-notes
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1542,7 +2215,7 @@ paths:
                     user:
                       type: user
                       id: 5310d8e8598c9a0b24000005
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1563,6 +2236,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Resource Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       tags:
         - Notes
       description: Create a note on a single contact.
@@ -1583,7 +2292,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1637,8 +2346,44 @@ paths:
                               person_type: user
                               count: 148
                     total_count: 1
-        "400":
+        400:
           $ref: "#/components/responses/BadRequest"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-companies
       description: |-
         You can list companies. The company list is sorted by the last_request_at field and by default is ordered descending, most recently requested first.
@@ -1673,7 +2418,7 @@ paths:
       summary: Create or update a company
       operationId: post-companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1718,8 +2463,44 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        "404":
+        404:
           $ref: "#/components/responses/BadRequest"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       tags:
         - Companies
       description: |-
@@ -1751,7 +2532,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1806,7 +2587,7 @@ paths:
                               count: 148
                     total_count: 1
                     scroll_param: 25b649f7-4d33-4ef6-88f5-60e5b8244309
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1820,6 +2601,42 @@ paths:
                     errors:
                       - code: not_found
                         message: scroll parameter not found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-companies-scroll
       description: |-
         The Company listing functionality does not work well for huge datasets, and can result in errors and performance problems when paging deeply. The Scroll API provides an efficient mechanism for iterating over all companies in a dataset.
@@ -1839,7 +2656,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1884,7 +2701,7 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1898,6 +2715,42 @@ paths:
                     errors:
                       - code: company_not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-company
       description: Fetch a single company.
       parameters:
@@ -1923,7 +2776,7 @@ paths:
       summary: Delete a company
       operationId: delete-companies-id
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -1935,7 +2788,7 @@ paths:
                     id: 5ba682d23d7cf92bef87bfd4
                     object: company
                     deleted: true
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -1949,6 +2802,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       description: Delete a single company.
       tags:
         - Companies
@@ -1971,7 +2860,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -2016,7 +2905,7 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -2037,6 +2926,42 @@ paths:
                     errors:
                       - code: company_not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-contacts-id-companies-companyId
       description: Detach a company from a single contact.
   "/companies/{id}/contacts":
@@ -2052,7 +2977,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -2143,7 +3068,7 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        "400":
+        400:
           description: Bad Request
           content:
             application/json:
@@ -2157,7 +3082,7 @@ paths:
                     errors:
                       - code: client_error
                         message: Invalid starting_after param. Please try again using a starting_after value from a paginated response
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -2171,6 +3096,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-companies-id-contacts
       description: Fetch a list of all contacts that belong to a company.
       parameters:
@@ -2192,7 +3153,7 @@ paths:
       tags:
         - Companies
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -2210,7 +3171,7 @@ paths:
                         updated_at: 1394622004
                         person_type: user
                         count: 148
-        "404":
+        404:
           description: Not Found
           content:
             application/json:
@@ -2224,6 +3185,42 @@ paths:
                     errors:
                       - code: not_found
                         message: Company Not Found
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-companies-id-segments
       description: Fetch a list of all segments that belong to a company.
   "/notes/{id}":
@@ -2239,7 +3236,7 @@ paths:
       tags:
         - Notes
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -2267,6 +3264,42 @@ paths:
                     user:
                       type: user
                       id: 5310d8e8598c9a0b24000005
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        406:
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        415:
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        429:
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Errors"
       operationId: get-notes-id
       description: Fetch the details of a single note.
 security:
@@ -2887,6 +3920,8 @@ components:
           type: string
           minLength: 1
           description: The type of object - error.list.
+          enum:
+            - error.list
           example: error.list
         request_id:
           type: string
@@ -3200,6 +4235,129 @@ components:
         - created_at
         - body
         - user
+    Conversation:
+      description: Message are how you reach out to contacts in Intercom. They are created when an admin sends an outbound message to a contact.
+      type: object
+      title: Conversation
+      x-examples:
+        Example:
+          type: conversation
+          id: 1911149811
+          created_at: 1539897198
+          updated_at: 1540393270
+          source:
+            attachments: []
+            author:
+              id: 5bc8f7421ae2d96695c18a
+              type: lead
+            body: "<p>Hi</p>"
+            delivered_as: customer_initiated
+            id: 269650473
+            subject: ""
+            type: conversation
+            url: https://intercom-survey-app.glitch.me/
+            redacted: false
+          contacts:
+            - id: 5bc8f7ae2d96695c18a
+              type: lead
+          teammates:
+            - id: 814860
+              type: admin
+              name: Mark Strong
+              email: mk@acmeinc.org
+          admin_assignee_id: "814860"
+          team_assignee_id:
+          open: true
+          state: open
+          read: true
+          waiting_since: 64654125776
+          snoozed_until:
+          tags:
+            tags: []
+            type: tag.list
+          first_contact_reply:
+            created_at: 1539897198
+            type: conversation
+            url: https://intercom-survey-app.glitch.me/
+          priority: not_priority
+          sla_applied:
+            sla_name: VIP customer <5m
+            sla_status: missed
+          conversation_rating:
+            created_at:
+            contact:
+              id:
+              type:
+            rating:
+            remark:
+            teammate:
+              id:
+              type:
+              name:
+              email:
+          statistics:
+            time_to_assignment: 2310
+            time_to_admin_reply: 2408
+            time_to_first_close: 4915
+            time_to_last_close: 5125
+            median_time_to_reply: 321
+            first_contacat_reply_at: 1539897200
+            first_assignment_at: 1539897200
+            first_admin_reply_at: 1539897200
+            first_close_at: 1539897200
+            last_assignment_at: 1539897200
+            last_assignment_admin_reply_at: 1539897200
+            last_contact_reply_at: 1539897200
+            last_admin_reply_at: 1539897200
+            last_close_at: 1539897200
+            last_closed_by:
+              type: admin
+              id: 325432652
+              name: Tom Smith
+              email: tom@example.com
+            count_reopens: 3
+            count_assignments: 2
+            count_conversation_parts: 67
+          conversation_parts:
+            conversation_parts:
+              - assigned_to:
+                attachments: []
+                author:
+                  id: 815309
+                  type: bot
+                body: "<p>Test_App typically replies in a few hours.</p>"
+                created_at: 1539897200
+                external_id:
+                id: 2202737122
+                notified_at: 1539897200
+                part_type: comment
+                type: conversation_part
+                updated_at: 1539897200
+                redacted: false
+            total_count: 67
+            type: conversation_part.list
+      properties:
+        type:
+          type: string
+          minLength: 1
+          description: Value is 'conversation'.
+          example: conversation
+          enum:
+            - conversation
+        id:
+          type: string
+          minLength: 1
+          description: The id representing the conversation.
+          example: 1911149811
+        created_at:
+          type: integer
+          description: The time the conversation was created.
+          example: 1539897198
+        updated_at:
+          type: integer
+          description: The time the conversation was updated.
+          example: 1540393270
+
     Message:
       description: Message are how you reach out to contacts in Intercom. They are created when an admin sends an outbound message to a contact.
       type: object
