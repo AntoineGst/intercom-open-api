@@ -117,48 +117,10 @@ paths:
                     body: Hey is the new thing in stock?
                     message_type: inapp
                     conversation_id: 36000324324
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       tags:
         - Conversations
       requestBody:
@@ -268,48 +230,10 @@ paths:
               examples:
                 Conversation:
                   $ref: "#/components/examples/Conversation"
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       tags:
         - Conversations
       requestBody:
@@ -419,44 +343,10 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        400:
-          $ref: "#/components/responses/BadRequest"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       operationId: get-contacts
       description: Fetch a list of all contacts.
       parameters:
@@ -583,63 +473,10 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-              examples:
-                Contact already exists:
-                  value:
-                    type: error.list
-                    request_id: 80ec9d92-99ff-4da9-9a0e-c0ab7c42f7e7
-                    errors:
-                      - code: conflict
-                        message: A contact matching those details already exists with id=5da6f18e3d7cf967e4582d05
-                Owner not on workspace:
-                  value:
-                    type: error.list
-                    request_id: 00043csj9iva7pl9mmmg
-                    errors:
-                      - code: parameter_invalid
-                        message: The owner specified is not a member of the workspace
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       description: Create a new contact (ie. user or lead).
       tags:
         - Contacts
@@ -1233,56 +1070,10 @@ paths:
                       url: /contacts/5ba682d23d7cf92bef87bfd4/companies
                       total_count: 3
                       has_more: false
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-              examples:
-                Contact not found:
-                  value:
-                    type: error.list
-                    request_id: 9a3d0816-9707-4598-977e-c009ba630148
-                    errors:
-                      - code: not_found
-                        message: Contact Not Found
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       description: Fetch the details of a single contact.
       tags:
         - Contacts
@@ -2328,44 +2119,10 @@ paths:
                               person_type: user
                               count: 148
                     total_count: 1
-        400:
-          $ref: "#/components/responses/BadRequest"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       operationId: get-companies
       description: |-
         You can list companies. The company list is sorted by the last_request_at field and by default is ordered descending, most recently requested first.
@@ -2445,44 +2202,10 @@ paths:
                           updated_at: 1394622004
                           person_type: user
                           count: 148
-        404:
-          $ref: "#/components/responses/BadRequest"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       tags:
         - Companies
       description: |-
@@ -5094,8 +4817,8 @@ components:
       type: http
       scheme: bearer
   responses:
-    BadRequest:
-      description: Bad Request
+    Errors:
+      description: Errors
       content:
         application/json:
           schema:
