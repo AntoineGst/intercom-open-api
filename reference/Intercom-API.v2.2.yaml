@@ -598,105 +598,10 @@ paths:
                       page: 1
                       per_page: 1
                       total_pages: 436
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-              examples:
-                Invalid Parameters:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: bad_request
-                        message: bad 'random_param' parameter
-                Required Parameter Not There:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_query
-                        message: "Invalid query. Ensure 'field', 'operator', 'value' are present for field queries. Ensure 'operator' and 'value' for composite queries."
-                Too Many Nested Values (Max 10):
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_values
-                        message: Value depth exceeds 10 items
-                Invalid Value:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_value
-                        message: 123 is not a valid string
-                Invalid Field:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_field
-                        message: not_a_field is not a valid field
-                Invalid Multiple Filter Operator:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_operator
-                        message: "Composite operators must be of type AND or OR "
-                Invalid Value Operator:
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_operator
-                        message: "email does not support operator: >"
-                Too Many Values (Max 15):
-                  value:
-                    type: error.list
-                    request_id: 693d48decbb24ad5bc1e2bf75dc9e8ca
-                    errors:
-                      - code: invalid_value
-                        message: "Number of elements in composite query is greater than 15, please try again with a smaller list"
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        403:
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        406:
-          description: Not Acceptable
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        415:
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        429:
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Errors"
+        4XX:
+          $ref: "#/components/schemas/Errors"
+        5XX:
+          $ref: "#/components/schemas/Errors"
       description: |-
         You can search for multiple contacts by the value of their attributes in order to fetch exactly who you want.
 
